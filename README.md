@@ -9,28 +9,36 @@ $ sudo apt-get update
 
 $ sudo apt-get install feh ttf-wqy-zenhei samba-common-bin samba python3-rpi.gpio
 
-$ sudo pip3 install pexpect aiohttp
-sudo  aiohttp_jinja2
+$ sudo pip3 install pexpect aiohttp aiohttp_jinja2
+HDMI输出声音
+$ sudo leafpad /boot/config.txt 里面设置HDMI_DRIVER=2,参数是：-o hdmi
+禁用屏保和休眠
+$ sudo leafpad /etc/lightdm/lightdm.conf 行xserver-command=X -s o -dpms
+samba文件共享
+$ sudo leafpad /etc/samba/smb.conf  [homes]段
+browseable = yes
 
+read only = no
+create mask = 0755
+directory mask = 0755
 
+增加samba用户
+sudo smbpasswd -a pi 输入两次密码，重启
 
+开机运行Python脚本
+sudo pcmanfm 复制desktop文件到 /home/pi/.config/autostart
 
-viewnior  fullscreen picture
-
-
-如果想用全屏播放，参数是：-r
-如果想用HDMI输出声音，参数是：-o hdmi，并且有个前提：/boot/config.txt 里面设置HDMI_DRIVER=2
 
 
 
 
 
 image 和 imagetmb 增加图片 
-image 1600*1200
-imagetmb 200*150
+image 900*810
+imagetmb 220*220
 
 
-文件名：排序xxx=菜名（不支持中文）_时间（秒）_视频文件名（视频要mp4结尾）.jpg(或png)
+文件名：类别_排序xxx=菜名（不支持中文）_时间（秒）_视频文件名（视频要mp4结尾）.jpg(或png)
 
 setting.txt
 time1
@@ -76,6 +84,7 @@ sudo apt-get install ttf-mscorefonts-installer
 
 可以直接在图形界面设置固定IP
 
+  设定有线即可
 sudo leafpad /etc/network/interfaces
 
 
