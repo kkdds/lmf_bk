@@ -28,6 +28,8 @@ sudo smbpasswd -a pi 输入两次密码，重启
 开机运行Python脚本
 sudo pcmanfm 复制desktop文件到 /home/pi/.config/autostart
 
+设定有线固定IP，设置中文，设置时区，设置背景
+
 
 
 
