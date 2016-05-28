@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>原烹</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" href="../css/com.css"/>
+<link rel="stylesheet" type="text/css" href="../css/btn_style.css"/>
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="../js/time_js.js"></script>
+<script type='text/javascript' src='../js/jquery.modal.js'></script>
+<script type='text/javascript' src='../js/ktimer3.js'></script>
+<script type="text/JavaScript">
+var Gcaitime=5;
+var vname='01';
+var pcai='01';
+var scly=0;
+$(document).ready(function(){  
+	$('#timep').pietimer({seconds: Gcaitime},function(){timesup();})	
+
+	//$('#updown').prop("checked", false);
+	//$('#updown').prop("disabled", true);
+	$('#onoff').prop("checked", false);
+	$('#onoff').prop("disabled", true);
+
+    $('#cntBtn').modal({
+        trigger:'#cntBtn',         // id or class of link or button to trigger modal
+        olay:'div.overlay',            // id or class of overlay
+        modals:'div#modal1',           // id or class of modal
+        close:'.closeBtn'              // id or class of close button
+    });
+    $('.modalLink2').modal({
+        trigger:'.modalLink2',
+        olay:'div.overlay',
+        modals:'div#modal2',
+        close:'.closeBtn'
+    });
+    $('#setBtn').modal({
+        trigger:'#setBtn',
+        olay:'div.overlay',
+        modals:'div#modal3',
+        close:'.closeBtn'
+    });
+	
+  $("#setMtimebtn").click(function(){	 
+    var cctime=parseInt($('#setMtime').val()); 
+	if(isNaN(cctime)){
+		return false;
+	}
+	Gcaitime=cctime;
+	$('#timep').pietimer({
+		seconds:cctime,
+	},function(){
+		timesup();
+	})
+	$('div.overlay').hide();
+	$('div.modal').hide();
+	return false;
+  });
+	
+  $(".scr_div").click(function(){
+	  if(running_sta==true){
+		  return false;
+	  }
+	  $(".scr_div").css("background-image","none");
+	  $(".item_div").css("display","block");
+	  $(".scr_div").scrollTop(scly);
+	return false;
+  });
+
+  $(".item_div").click(function(){
+	  if(running_sta==true){
+		  return false;
+	  }
+	  caitime=$(this).attr("vl1");
+	  Gcaitime=caitime;
+	  //$("#namescreen").text($(this).attr("vl0"));
+	  $('#timep').pietimer({seconds: caitime},function(){timesup();})
+	  vname=$(this).attr("vl4");
+	  pcai=$(this).attr("bgp")
+	  $(".scr_div").css("background-image","url('"+pcai+"')");
+	  scly=$(".scr_div").scrollTop();
+	  $(".item_div").css("display","none");
+	  return false;
+  });
+  $(".runscr").css("display","none");
+
+});
+function timesup(){
+	$('#els_time').text('时间到');
+	$('#onoff').prop("disabled", false);
+	//$('#updown').prop("disabled", false);
+	$('#onoff').prop("checked", false);
+	//$('#updown').prop("checked", false);
+	running_sta=false;
+	shell_sta=false;
+	$.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
+		//var rj=JSON.parse(r);
+	});
+}
+var shell_sta='9';
+var running_sta='9';
+function doonoff(){
+	if(running_sta=='0'){		
+	  $('#timep').pietimer('start');
+	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'fm',t:Gcaitime},function(r){
+		  //var rj=JSON.parse(r);
+	  });
+	}else if(running_sta=='1'){
+	  $('#timep').pietimer('pause');
+	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
+		  //var rj=JSON.parse(r);
+	  });
+	}
+	return false;
+}
+function getSta(){
+	clearInterval(ws);
+	$.post('sta',{p:$('#pwd').val(),m:'sta',d:453},function(r){
+		var rj=JSON.parse(r);
+		shell_sta=rj.shell_sta;
+		running_sta=rj.running_sta;
+		$("#namescreen").text(rj.tmp1+40);
+		update_sta();
+		ws=setInterval("getSta()", 500);
+	}).error(function() { 
+		disconnect();
+	});
+}
+function update_sta(){
+	if(shell_sta=='2'){
+		$('#onoff').prop("disabled",false);
+	}
+	if(running_sta=='0'){
+		//$('.disable_when_running').prop("disabled",false);
+	}
+	if(running_sta=='1'){
+		//$('.disable_when_running').prop("disabled",true);
+	}  
+}
+function playvideo(){
+	  $.post('video',{p:$('#pwd').val(),m:'play',d:vname,i:pcai},function(r){
+	  });
+}
+function stopvideo(){
+	  $.post('video',{p:$('#pwd').val(),m:'stop',i:pcai},function(r){
+	  });
+}
+function pausevideo(){
+	  $.post('video',{p:$('#pwd').val(),m:'pause'},function(r){
+	  });
+}
+function shell_up(){
+	  $.post('sta',{p:$('#pwd').val(),m:'shell',d:'up'},function(r){
+	  });
+}
+function shell_dw(){
+	  $.post('sta',{p:$('#pwd').val(),m:'shell',d:'dw'},function(r){
+	  });
+}
+var sta_slave=true;
+function slave_on_off(){
+	if(sta_slave){
+	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'fs',t:1},function(r){
+		  $('#btn_bw').val('保温 开');
+	  });
+	}else{
+	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fs'},function(r){
+		  $('#btn_bw').val('保温 关');
+	  });
+	}
+	sta_slave=!sta_slave;	
+}
+var sta_shaokao=true;
+function shaokao_on_off(){
+	if(sta_shaokao){
+	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'sk',t:1},function(r){
+		  $('#btn_sk').val('烧烤 开');
+		  $('.disable_when_running').prop("disabled",true);
+	  });
+	}else{
+	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'sk'},function(r){
+		  $('#btn_sk').val('烧烤 关');
+		  $('.disable_when_running').prop("disabled",false);
+	  });
+	}
+	sta_shaokao=!sta_shaokao;	
+}
+function requestFullScreen() {
+  var de = document.documentElement;
+  if (de.requestFullscreen) {
+	  de.requestFullscreen();
+  } else if (de.mozRequestFullScreen) {
+	  de.mozRequestFullScreen();
+  } else if (de.webkitRequestFullScreen) {
+	  de.webkitRequestFullScreen();
+  }
+}
+function do_show_setting(){
+	$.post('setting',{m:'r'},function(r){
+		var rj=JSON.parse(r);
+		if(rj.p!='ok'){			
+			$('#t1').val(1);
+			$('#t2u').val(3);
+			$('#t2d').val(2);
+			$('#t3').val(1);
+			return;
+		}
+		$('#t1').val(rj.t1);
+		$('#t2u').val(rj.t2u);
+		$('#t2d').val(rj.t2d);
+		$('#t3').val(rj.t3);
+	});
+	return;
+}
+function do_save_setting(){
+	$.post('setting',{
+		m:'w',
+		p:$('#setting_pwd').val(),
+		t1:$('#t1').val(),
+		t2u:$('#t2u').val(),
+		t2d:$('#t2d').val(),
+		t3:$('#t3').val()
+	},function(r){
+		var rj=JSON.parse(r);
+		if(rj.p!='ok'){
+			$('#setting_save_btn').val('密码错');
+			return;
+		}
+	$('#setting_save_btn').val('保存');
+	$('div.overlay').hide();
+	$('div.modal').hide();
+	});
+	return;
+}
+</script>
+</head>
+<body>
+<div class="left_div">
+<div class="scr_div">
+{% for values in caifiles %}
+	<div class="item_div" 
+	 style="background-image:url('imagetmb/{{values.2}}')" bgp="image/{{values.2}}" 
+     vl0="{{values.0}}" vl1="{{values.1}}" vl4="{{values.4}}" >
+		<div style="height:80%"></div>
+		<div class="item_div_name">
+			{{values.1}} 秒
+		</div>
+	</div>
+{% endfor %}
+</div>
+</div>
+<div class="right_div">
+  <div class="ctrl_div">
+  
+    <div style="padding-bottom:15px">
+    	<span id="namescreen" class="namescreen" style="width:30%">v7</span> ℃ &nbsp; &nbsp;
+    	<input type="button" id="cntBtn" class="abtn disable_when_running " style="width:30%" value="连接">
+    	<input type="button" id="setBtn" class="abtn disable_when_running " style="width:30%" value="设置"  onClick="do_show_setting()">
+    </div>
+    <div class="btn_div runscr modalLink2">
+      <p id="timep"></p>            
+    </div>
+    <div class="btn_div runscr">
+        <input type="button" class="abtn " value="盖子 开" onClick="shell_up()">
+        <input type="button" class="abtn " value="盖子 合" onClick="shell_dw()">
+    </div>
+    <div class="btn_div runscr">
+        <input type="button" class="abtn disable_when_running" id="btn_bw" value="保温" onClick="slave_on_off()">
+        <input type="button" class="abtn " id="btn_sk" value="烧烤" onClick="shaokao_on_off()">
+    </div>
+    <div class="btn_div runscr">
+      <div class="switch">
+        <input type="checkbox" id="onoff" onChange="doonoff()" class="disable_when_running">
+        <label for="toggle"><i><div style="height:13px"></div>蒸汽</i></i></label>
+        <span><div style="height:6px"></div><span id="onoffspan">开</span></span>
+      </div>
+    </div>
+    <div class="btn_div runscr">    
+      <input type="button" class="abtn" value="播放视频" onClick="playvideo('01')">
+      <input type="button" class="abtn" value="停止播放" onClick="stopvideo()">
+    </div>
+
+  </div>
+</div>
+
+<div class="overlay"></div>
+<div class="modal" id="modal1">
+    <div class="closeBtn">关闭&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <div class="modal_cnt">密码： <input type="text" id="pwd" placeholder="请输入密码" value=""/></div>
+	<div class="modal_cnt">
+      <input type="button" id="connect" class="abtn connect" value="连接">&nbsp;|&nbsp;状态:
+      <span id="status">未连接</span>
+    </div>
+</div>
+<div class="modal" id="modal2">
+    <div class="closeBtn">关闭&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <div class="modal_cnt">手动设置时间： 
+      <input type="number" id="setMtime" placeholder="请输入时间" value=""/>&nbsp;&nbsp;秒
+      <input type="button" id="setMtimebtn" class="abtn disable_when_running" value="设置">
+  </div>
+</div>
+<div class="modal" id="modal3" style="width:80%">
+    <div class="closeBtn">关闭&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <div class="modal_cnt">
+	启动(毫秒)： <input type="number" id="t1" placeholder="输入时间ms" value=""/>
+	向上全速(毫秒)： <input type="number" id="t2u" placeholder="输入时间ms" value=""/>
+    <br />
+	停止(毫秒)： <input type="number" id="t3" placeholder="输入时间ms" value=""/>
+	向下全速(毫秒)： <input type="number" id="t2d" placeholder="输入时间ms" value=""/>
+	</div>
+    <div class="modal_cnt">密码： <input type="text" id="setting_pwd" placeholder="请输入密码" value=""/></div>
+	<div class="modal_cnt">
+      <input type="button" id="setting_save_btn" class="abtn" value="保存" onClick="do_save_setting()">
+    </div>
+</div>
+<div class="modal" id="caitmp"></div>
+    
+</body>
+</html>
