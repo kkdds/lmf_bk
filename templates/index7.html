@@ -14,6 +14,7 @@ var Gcaitime=5;
 var Gvname='js';
 var Gpcai='01';
 var Gscly=0;
+var Gshowtype='my';
 var shell_sta='9';
 var running_sta='9';
 $(document).ready(function(){  
@@ -62,9 +63,10 @@ $(document).ready(function(){
 	  $(".scr_div").css("background-image","none");
 	  $(".item_div").css("display","block");
 	  $(".scr_div").scrollTop(Gscly);
-	$(".menubtn").prop("disabled",false);
-	$(".menubtn:eq(1)").prop("disabled",true);
-	return false;
+	  //$(".menubtn").prop("disabled",false);
+	  //$(".menubtn:eq(1)").prop("disabled",true);
+	  do_show_cai_class();
+	  return false;
   });
 
   $(".imgzone").click(function(){
@@ -228,10 +230,17 @@ function do_save_setting(){
 }
 function show_cai_class(showtype,cbtn){
 	$(".scr_div").css("background-image","none");
-	$(".item_div").css("display","none");
-	$(".menubtn").prop("disabled",false);
-	$(cbtn).prop("disabled",true);
+	//$(".menubtn").prop("disabled",false);
+	//$(cbtn).prop("disabled",true);
+	$(".menubtn").removeClass("classsel");
+	$(cbtn).addClass("classsel");
 	$(".scr_div").scrollTop();
+	Gshowtype=showtype;
+	do_show_cai_class();
+}
+function do_show_cai_class(){
+	showtype=Gshowtype;
+	$(".item_div").css("display","none");
 	switch (showtype){
 	case 'my':
 		$(".myselcai").parent().css("display","block");
@@ -272,7 +281,7 @@ function show_cai_class(showtype,cbtn){
         <input type="button" class="menubtn" value="我的菜单" onClick="show_cai_class('my',this)">
     </div>
     <div class="classbtn_div">
-        <input type="button" class="menubtn" disabled="disabled" value="全部分类" onClick="show_cai_class('all',this)">
+        <input type="button" class="menubtn classsel" value="全部分类" onClick="show_cai_class('all',this)">
     </div>
     <div class="classbtn_div">
         <input type="button" class="menubtn" value="冰烹" onClick="show_cai_class('10',this)">
