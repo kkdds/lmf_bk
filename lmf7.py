@@ -47,10 +47,11 @@ def index(request):
     caifiles=[]
     for i in os.listdir(root):
         if os.path.isfile(os.path.join(root,i)):
-            cainame=urllib.request.unquote(i.split(".")[0])
-            dltime=i.split(".")[1]
-            videoname=i.split(".")[2]            
-            caifiles.append([cainame,dltime,i,rootpath,videoname])
+            caiclass=i.split(".")[0]
+            cainame=i.split(".")[1]
+            dltime=i.split(".")[2]
+            videoname=i.split(".")[3]            
+            caifiles.append([i,caiclass,cainame,dltime,videoname])
             
     caifiles.sort()       
     file_object=open(softPath+'setting.txt','r')    # r只读，w可写，a追加    

@@ -1,17 +1,16 @@
 @charset "utf-8";
-html,body{ margin:0px; height:99%; 
+html,body{ margin:0px; height:100%; 
 font-family:"微软雅黑", "Arial Unicode MS", Calibri;
-background: url(/css/bg1.jpg) no-repeat;
-background-size:cover;}
-.left_div{width:66%; height:95%; float:left; text-align:center;
-padding: 20px 0 0 0;}
-.scr_div{
+background: url(/css/bg1.jpg) ;
+background-size:100% 100%;}
+.left_div{width:10%; height:95%; float:left; text-align:center;padding: 10px 0 0 0;}
+.class_div{
 	width:90%; height:95%; display:inline-block; 
 	background-color:rgba(0,0,0,0.5);;
   -webkit-border-radius:6px;
   -moz-border-radius:6px;
   border-radius:6px;
-  padding: 1em 1em 1em;
+  padding: 1em 0.5em;
   color:#000000;
   font-size:1.0em;
   overflow: auto;
@@ -19,18 +18,33 @@ padding: 20px 0 0 0;}
   background-size:cover;
   background-position:center center;
 }
-.right_div{width:33%; height:95%; float:left; text-align:center;padding: 20px 0 0 0;}
+.mid_div{width:60%; height:95%; float:left; text-align:center;padding: 10px 0 0 0;}
+.scr_div{
+	width:90%; height:95%; display:inline-block; 
+	background-color:rgba(0,0,0,0.5);;
+  -webkit-border-radius:6px;
+  -moz-border-radius:6px;
+  border-radius:6px;
+  padding: 1em 1.2em;
+  color:#000000;
+  font-size:1.0em;
+  overflow: auto;
+  background-repeat: no-repeat;
+  background-size:100% 100%;
+  background-position:center center;
+}
+.right_div{width:30%; height:95%; float:left; text-align:center;padding: 10px 0 0 0;}
 .ctrl_div{
 	width:90%; height:95%; display:inline-block; 
 	background-color:rgba(0,0,0,0.5);
   -webkit-border-radius:6px;
   -moz-border-radius:6px;
   border-radius:6px;
-  padding: 1em 1em 1em;
+  padding: 1em 0.6em;
   color:#ffffff;
 }
 .item_div{
-  width:30%; height:30%; 
+  width:46%; height:33%; 
   float:left; text-align:center;margin:5px;
   background-color:#ffffff;
   padding:6px 3px;
@@ -52,14 +66,21 @@ padding: 20px 0 0 0;}
   margin: 0 auto;
   /*background-color:#ffffff;*/
 }
+.classbtn_div{
+  border-buttom: 1px solid rgba(255, 255, 255, 0.26);
+  padding:0px 0;
+  vertical-align:middle; text-align:center;
+  margin: 0 auto;
+  height:11%;
+}
 .abtn{
-  font-size:1.4em;
+  font-size:1.1em;
   /*line-height:48px;
   height:48px;*/
-  padding:4px 0;
-  width:140px;
-  color:#ffffff;
-  background-color:#4a8cf7;
+  padding:6px 0;
+  width:40%;
+  color:#000000;
+  background-color:#F8B62C;
   font-weight:normal;
   font-family:Microsoft YaHei;
   border:0px solid #dcdcdc;
