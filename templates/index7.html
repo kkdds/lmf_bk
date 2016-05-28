@@ -11,14 +11,14 @@
 <script type='text/javascript' src='../js/ktimer3.js'></script>
 <script type="text/JavaScript">
 var Gcaitime=5;
-var vname='js';
-var pcai='01';
-var scly=0;
+var Gvname='js';
+var Gpcai='01';
+var Gscly=0;
+var shell_sta='9';
+var running_sta='9';
 $(document).ready(function(){  
-	$('#timep').pietimer({seconds: Gcaitime},function(){timesup();})	
-
-	$('#onoff').prop("checked", false);
-	$('#onoff').prop("disabled", true);
+	$('#timep').pietimer({seconds: Gcaitime},function(){timesup();})
+    $(".runscr").css("display","none");
 
     $('#cntBtn').modal({
         trigger:'#cntBtn',         // id or class of link or button to trigger modal
@@ -61,52 +61,55 @@ $(document).ready(function(){
 	  }
 	  $(".scr_div").css("background-image","none");
 	  $(".item_div").css("display","block");
-	  $(".scr_div").scrollTop(scly);
+	  $(".scr_div").scrollTop(Gscly);
+	$(".menubtn").prop("disabled",false);
+	$(".menubtn:eq(1)").prop("disabled",true);
 	return false;
   });
 
-  $(".item_div").click(function(){
+  $(".imgzone").click(function(){
 	  if(running_sta==true){
 		  return false;
 	  }
-	  caitime=$(this).attr("caitime");
-	  Gcaitime=caitime;
-	  //$("#namescreen").text($(this).attr("vl0"));
-	  $('#timep').pietimer({seconds: caitime},function(){timesup();})
-	  vname=$(this).attr("vname");
-	  pcai=$(this).attr("bgp")
-	  $(".scr_div").css("background-image","url('"+pcai+"')");
-	  scly=$(".scr_div").scrollTop();
+	  Gcaitime=$(this).parent().attr("caitime");
+	  $('#timep').pietimer({seconds: Gcaitime},function(){timesup();})
+	  Gvname=$(this).parent().attr("vname");
+	  Gpcai=$(this).parent().attr("bgp");
+	  $(".scr_div").css("background-image","url('"+Gpcai+"')");
+	  Gscly=$(".scr_div").scrollTop();
 	  $(".item_div").css("display","none");
 	  return false;
   });
-  $(".runscr").css("display","none");
+
+  $(".selzone").click(function(){
+	  $(this).toggleClass("myselcai");
+	  return false;
+  });
 
 });
 function timesup(){
 	$('#els_time').text('时间到');
-	$('#onoff').prop("disabled", false);
-	//$('#updown').prop("disabled", false);
-	$('#onoff').prop("checked", false);
-	//$('#updown').prop("checked", false);
+	$('#btnoff').prop("disabled", true);
 	running_sta=false;
 	shell_sta=false;
 	$.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
 		//var rj=JSON.parse(r);
 	});
 }
-var shell_sta='9';
-var running_sta='9';
-function doonoff(){
-	if(running_sta=='0'){		
+function doonoff(ckbtn){
+	if(running_sta=='0'){
 	  $('#timep').pietimer('start');
+	  $('#btnon').prop("disabled", true);
 	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'fm',t:Gcaitime},function(r){
 		  //var rj=JSON.parse(r);
+		  $('#btnoff').prop("disabled", false);
 	  });
 	}else if(running_sta=='1'){
 	  $('#timep').pietimer('pause');
+	  $('#btnoff').prop("disabled", true);
 	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
 		  //var rj=JSON.parse(r);
+		  $('#btnon').prop("disabled", false);
 	  });
 	}
 	return false;
@@ -126,21 +129,24 @@ function getSta(){
 }
 function update_sta(){
 	if(shell_sta=='2'){
-		$('#onoff').prop("disabled",false);
+		//$('#onoff').prop("disabled",false);
 	}
 	if(running_sta=='0'){
 		//$('.disable_when_running').prop("disabled",false);
+		$('#btnon').prop("disabled", false);
+		$('#btnoff').prop("disabled", true);
 	}
 	if(running_sta=='1'){
 		//$('.disable_when_running').prop("disabled",true);
+		$('#btnoff').prop("disabled", false);
 	}  
 }
 function playvideo(){
-	  $.post('video',{p:$('#pwd').val(),m:'play',d:vname,i:pcai},function(r){
+	  $.post('video',{p:$('#pwd').val(),m:'play',d:Gvname,i:Gpcai},function(r){
 	  });
 }
 function stopvideo(){
-	  $.post('video',{p:$('#pwd').val(),m:'stop',i:pcai},function(r){
+	  $.post('video',{p:$('#pwd').val(),m:'stop',i:Gpcai},function(r){
 	  });
 }
 function pausevideo(){
@@ -183,16 +189,6 @@ function shaokao_on_off(){
 	}
 	sta_shaokao=!sta_shaokao;	
 }
-function requestFullScreen() {
-  var de = document.documentElement;
-  if (de.requestFullscreen) {
-	  de.requestFullscreen();
-  } else if (de.mozRequestFullScreen) {
-	  de.mozRequestFullScreen();
-  } else if (de.webkitRequestFullScreen) {
-	  de.webkitRequestFullScreen();
-  }
-}
 function do_show_setting(){
 	$.post('setting',{m:'r'},function(r){
 		var rj=JSON.parse(r);
@@ -230,49 +226,85 @@ function do_save_setting(){
 	});
 	return;
 }
+function show_cai_class(showtype,cbtn){
+	$(".scr_div").css("background-image","none");
+	$(".item_div").css("display","none");
+	$(".menubtn").prop("disabled",false);
+	$(cbtn).prop("disabled",true);
+	$(".scr_div").scrollTop();
+	switch (showtype){
+	case 'my':
+		$(".myselcai").parent().css("display","block");
+	break;
+	case 'all':
+		$(".item_div").css("display","block");
+	break;
+	case '10':
+		$(".caiclass10").css("display","block");
+	break;
+	case '20':
+		$(".caiclass20").css("display","block");
+	break;
+	case '30':
+		$(".caiclass30").css("display","block");
+	break;
+	case '40':
+		$(".caiclass40").css("display","block");
+	break;
+	case '50':
+		$(".caiclass50").css("display","block");
+	break;
+	case '60':
+		$(".caiclass60").css("display","block");
+	break;
+	case '70':
+		$(".caiclass70").css("display","block");
+	break;
+	}
+}
 </script>
 </head>
 <body>
 <div class="left_div">
   <div class="class_div">
-    <div style="height:20px"></div>
+    <div style="height:10px"></div>
     <div class="classbtn_div">
-        <input type="button" style="width:90%" class="abtn " value="我的菜单" onClick="shell_up()">
+        <input type="button" class="menubtn" value="我的菜单" onClick="show_cai_class('my',this)">
     </div>
     <div class="classbtn_div">
-        <input type="button" style="width:90%" class="abtn " value="全部分类" onClick="shell_up()">
+        <input type="button" class="menubtn" disabled="disabled" value="全部分类" onClick="show_cai_class('all',this)">
     </div>
     <div class="classbtn_div">
-        <input type="button" style="width:90%" class="abtn " value="冰烹" onClick="shell_up()">
+        <input type="button" class="menubtn" value="冰烹" onClick="show_cai_class('10',this)">
     </div>
     <div class="classbtn_div">
-        <input type="button" style="width:90%" class="abtn " value="原烹" onClick="shell_up()">
+        <input type="button" class="menubtn" value="原烹" onClick="show_cai_class('70',this)">
     </div>
     <div class="classbtn_div">
-        <input type="button" style="width:90%" class="abtn " value="味烹" onClick="shell_up()">
+        <input type="button" class="menubtn" value="味烹" onClick="show_cai_class('60',this)">
     </div>
     <div class="classbtn_div">
-        <input type="button" style="width:90%" class="abtn " value="冷菜" onClick="shell_up()">
+        <input type="button" class="menubtn" value="冷菜" onClick="show_cai_class('30',this)">
     </div>
     <div class="classbtn_div">
-        <input type="button" style="width:90%" class="abtn " value="泉锅" onClick="shell_up()">
+        <input type="button" class="menubtn" value="泉锅" onClick="show_cai_class('40',this)">
     </div>
     <div class="classbtn_div">
-        <input type="button" style="width:90%" class="abtn " value="汤品" onClick="shell_up()">
+        <input type="button" class="menubtn" value="汤品" onClick="show_cai_class('50',this)">
     </div>
     <div class="classbtn_div">
-        <input type="button" style="width:90%" class="abtn " value="点心甜品" onClick="shell_up()">
+        <input type="button" class="menubtn" value="点心甜品" onClick="show_cai_class('20',this)">
     </div>
   </div>
 </div>
 <div class="mid_div">
   <div class="scr_div">
   {% for values in caifiles %}
-      <div class="item_div" 
+      <div class="item_div caiclass{{values.1}}" 
        style="background-image:url('imagetmb/{{values.0}}')" bgp="image/{{values.0}}" 
        caiclass="{{values.1}}" caitime="{{values.3}}" vname="{{values.4}}">
-          <div style="height:80%"></div>
-          <div class="item_div_name">
+          <div class="imgzone" style="height:80%"></div>
+          <div class="selzone">
               {{values.3}} 秒
           </div>
       </div>
@@ -294,21 +326,17 @@ function do_save_setting(){
         <input type="button" class="abtn " value="盖子 合" onClick="shell_dw()">
     </div>
     <div class="btn_div runscr">
+        <input type="button" id="btnon" class="abtn disable_when_running" value="开始" onClick="doonoff(this)">
+        <input type="button" id="btnoff" class="abtn" value="结束" onClick="doonoff(this)">
+    </div>
+    <div class="btn_div runscr">
         <input type="button" class="abtn disable_when_running" id="btn_bw" value="保温" onClick="slave_on_off()">
         <input type="button" class="abtn " id="btn_sk" value="烧烤" onClick="shaokao_on_off()">
     </div>
     <div class="btn_div runscr">
-      <div class="switch">
-        <input type="checkbox" id="onoff" onChange="doonoff()" class="disable_when_running">
-        <label for="toggle"><i><div style="height:13px"></div>蒸汽</i></i></label>
-        <span><div style="height:6px"></div><span id="onoffspan">开</span></span>
-      </div>
-    </div>
-    <div class="btn_div runscr">    
       <input type="button" class="abtn" value="播放视频" onClick="playvideo('01')">
       <input type="button" class="abtn" value="停止播放" onClick="stopvideo()">
     </div>
-
   </div>
 </div>
 
@@ -317,7 +345,7 @@ function do_save_setting(){
     <div class="closeBtn">关闭&nbsp;&nbsp;&nbsp;&nbsp;</div>
     <div class="modal_cnt">密码： <input type="text" id="pwd" placeholder="请输入密码" value=""/></div>
 	<div class="modal_cnt">
-      <input type="button" id="connect" class="abtn connect" value="连接">&nbsp;|&nbsp;状态:
+      <input type="button" id="connect" style="width:40%" class="menubtn connect" value="连接">&nbsp;|&nbsp;状态:
       <span id="status">未连接</span>
     </div>
 </div>
@@ -325,7 +353,7 @@ function do_save_setting(){
     <div class="closeBtn">关闭&nbsp;&nbsp;&nbsp;&nbsp;</div>
     <div class="modal_cnt">手动设置时间： 
       <input type="number" id="setMtime" placeholder="请输入时间" value=""/>&nbsp;&nbsp;秒
-      <input type="button" id="setMtimebtn" class="abtn disable_when_running" value="设置">
+      <input type="button" id="setMtimebtn" style="width:20%" class="menubtn disable_when_running" value="设置">
   </div>
 </div>
 <div class="modal" id="modal3" style="width:80%">
@@ -337,9 +365,8 @@ function do_save_setting(){
 	停止(毫秒)： <input type="number" id="t3" placeholder="输入时间ms" value=""/>
 	向下全速(毫秒)： <input type="number" id="t2d" placeholder="输入时间ms" value=""/>
 	</div>
-    <div class="modal_cnt">密码： <input type="text" id="setting_pwd" placeholder="请输入密码" value=""/></div>
-	<div class="modal_cnt">
-      <input type="button" id="setting_save_btn" class="abtn" value="保存" onClick="do_save_setting()">
+    <div class="modal_cnt">密码： <input type="text" id="setting_pwd" placeholder="请输入密码" value=""/>
+      <input type="button" id="setting_save_btn" style="width:20%" class="menubtn" value="保存" onClick="do_save_setting()">
     </div>
 </div>
 <div class="modal" id="caitmp"></div>
