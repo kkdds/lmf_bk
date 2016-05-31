@@ -9,17 +9,18 @@
 <script type="text/javascript" src="../js/time_js.js"></script>
 <script type='text/javascript' src='../js/jquery.modal.js'></script>
 <script type='text/javascript' src='../js/ktimer3.js'></script>
-<script type="text/JavaScript">
+<script type="text/javascript">
 var Gcaitime=5;
 var Gvname='js';
 var Gpcai='01';
 var Gscly=0;
-var Gshowtype='my';
+var Gshowtype='all';
 var shell_sta='9';
 var running_sta='9';
 $(document).ready(function(){  
 	$('#timep').pietimer({seconds: Gcaitime},function(){timesup();})
     $(".runscr").css("display","none");
+	//$("#run_type").html($("#run_type_def").html());
 
     $('#cntBtn').modal({
         trigger:'#cntBtn',         // id or class of link or button to trigger modal
@@ -80,6 +81,20 @@ $(document).ready(function(){
 	  $(".scr_div").css("background-image","url('"+Gpcai+"')");
 	  Gscly=$(".scr_div").scrollTop();
 	  $(".item_div").css("display","none");
+	  
+	  caiclass=$(this).parent().attr("caiclass");
+	  if(caiclass=='30'){
+		  $("#run_type").empty();
+		  return false;
+	  }
+	  if(caiclass=='50'){
+		  $("#run_type").empty();
+		  return false;
+	  }
+	  if(caiclass!='40'){
+		  caiclass='def';
+	  }
+	  $("#run_type").html($("#run_type_"+caiclass).children().clone(true));
 	  return false;
   });
 
@@ -330,22 +345,7 @@ function do_show_cai_class(){
     <div class="btn_div runscr modalLink2">
       <p id="timep"></p>            
     </div>
-    <div class="btn_div runscr">
-        <input type="button" class="abtn " value="盖子 开" onClick="shell_up()">
-        <input type="button" class="abtn " value="盖子 合" onClick="shell_dw()">
-    </div>
-    <div class="btn_div runscr">
-        <input type="button" id="btnon" class="abtn disable_when_running" value="开始" onClick="doonoff(this)">
-        <input type="button" id="btnoff" class="abtn" value="结束" onClick="doonoff(this)">
-    </div>
-    <div class="btn_div runscr">
-        <input type="button" class="abtn disable_when_running" id="btn_bw" value="保温" onClick="slave_on_off()">
-        <input type="button" class="abtn " id="btn_sk" value="烧烤" onClick="shaokao_on_off()">
-    </div>
-    <div class="btn_div runscr">
-      <input type="button" class="abtn" value="播放视频" onClick="playvideo('01')">
-      <input type="button" class="abtn" value="停止播放" onClick="stopvideo()">
-    </div>
+    <div id="run_type"></div>
   </div>
 </div>
 
@@ -379,6 +379,33 @@ function do_show_cai_class(){
     </div>
 </div>
 <div class="modal" id="caitmp"></div>
-    
+<div id="run_type_def" style="display:none">
+    <div class="btn_div runscr">
+        <input type="button" class="abtn " value="盖子 开" onClick="shell_up()">
+        <input type="button" class="abtn " value="盖子 合" onClick="shell_dw()">
+    </div>
+    <div class="btn_div runscr">
+        <input type="button" id="btnon" class="abtn disable_when_running" value="开始" onClick="doonoff(this)">
+        <input type="button" id="btnoff" class="abtn" value="结束" onClick="doonoff(this)">
+    </div>
+    <div class="btn_div runscr">
+        <input type="button" class="abtn disable_when_running" id="btn_bw" value="保温" onClick="slave_on_off()">
+        <input type="button" class="abtn " id="btn_sk" value="烧烤" onClick="shaokao_on_off()">
+    </div>
+    <div class="btn_div runscr">
+      <input type="button" class="abtn" value="播放视频" onClick="playvideo('01')">
+      <input type="button" class="abtn" value="停止播放" onClick="stopvideo()">
+    </div>
+</div>
+<div id="run_type_40" style="display:none">
+    <div class="btn_div runscr">
+        <input type="button" id="btnqg_big_wat" class="abtn " value="上水" onClick="#">
+        <input type="button" id="btnqg_sml_wat" class="abtn" value="流水" onClick="#">
+    </div>
+    <div class="btn_div runscr">
+        <input type="button" id="btnqg_big_stm"  class="abtn "value="蒸汽" onClick="#">
+        <input type="button" id="btnqg_sml_stm" class="abtn " value="保温" onClick="#">
+    </div>
+</div>
 </body>
 </html>
