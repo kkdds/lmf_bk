@@ -9,6 +9,7 @@ import urllib.request
 from pyomxplayer import OMXPlayer
 from qiv import QIV
 import RPi.GPIO as GPIO
+from urllib.parse import unquote
 
 stapwd='abc'
 setpwd='lmf2016'
@@ -48,10 +49,11 @@ def index(request):
     for i in os.listdir(root):
         if os.path.isfile(os.path.join(root,i)):
             caiclass=i.split(".")[0]
-            cainame=i.split(".")[1]
+            bigimg=i.split(".")[1]
+            cainame=unquote(i.split(".")[4])
             dltime=i.split(".")[2]
             videoname=i.split(".")[3]            
-            caifiles.append([i,caiclass,cainame,dltime,videoname])
+            caifiles.append([i,caiclass,cainame,dltime,videoname,bigimg])
             
     caifiles.sort()       
     file_object=open(softPath+'setting.txt','r')    # r只读，w可写，a追加    
@@ -60,7 +62,7 @@ def index(request):
     shell_ud_t2d_set=int(file_object.readline())
     shell_ud_t3_set=int(file_object.readline())
     #for line in file_object:
-         #print(line)         
+         #print(line)
     file_object.close()
             
     #使用aiohttp_jinja2  methed 2

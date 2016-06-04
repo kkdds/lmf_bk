@@ -45,9 +45,9 @@ background-size:100% 100%;}
 }
 .item_div{
   width:46%; height:33%; 
-  float:left; text-align:center;margin:5px;
+  float:left; text-align:center;
   background-color:#ffffff;
-  padding:6px 3px;
+  margin:5px;/*padding:6px 3px;*/
   background-repeat: no-repeat;
   background-size:cover;
   /*-webkit-box-shadow:3px 3px 5px #555;  
@@ -55,13 +55,16 @@ background-size:100% 100%;}
   box-shadow:3px 3px 5px #555;  */
 }
 .selzone{
-  background-color:rgba(255,255,255,0.5);;
-  /*height:20%;
-  line-height:48px;*/
+  background-color:rgba(0,0,0,0.5);
+  color:#ffffff;
+  bottom:0px;
+  position: relative;
   padding:8px 0px;
+  /*height:20%;
+  line-height:48px;
   border-radius:6px;
   -webkit-border-radius:6px;
-  -moz-border-radius:6px;
+  -moz-border-radius:6px;*/
 }
 .btn_div{
   border-top: 1px solid rgba(255, 255, 255, 0.26);
