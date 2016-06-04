@@ -26,12 +26,10 @@ GPIO.output(27, 1)
 GPIO.output(22, 1)
 GPIO.output(23, 1)
 
-#正转
-GPIO.setup(5, GPIO.OUT)
-#反转
-GPIO.setup(6, GPIO.OUT)
+
+GPIO.setup(5, GPIO.OUT)#正转
+GPIO.setup(6, GPIO.OUT)#反转
 GPIO.setup(12, GPIO.OUT)
-#GPIO.PWM(channel, frequency)
 p = GPIO.PWM(12, 50)
 p.start(0)
 
@@ -63,8 +61,7 @@ def index(request):
     shell_ud_t3_set=int(file_object.readline())
     #for line in file_object:
          #print(line)
-    file_object.close()
-            
+    file_object.close()            
     #使用aiohttp_jinja2  methed 2
     return {'test': '3', 'caifiles': caifiles}
 

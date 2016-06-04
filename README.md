@@ -36,13 +36,18 @@ sudo pcmanfm 复制desktop文件到 /home/pi/.config/autostart
 
 
 image 和 imagetmb 增加图片 
-image 900*810
+image 900*810 
 imagetmb 220*220
 
 
-文件名：类别_排序xxx=菜名（不支持中文）_时间（秒）_视频文件名（视频要mp4结尾）.jpg(或png)
+文件名：A_B_C_D_E.jpg
+A 类别 ; B 排序,大图文件名; 
+C时间（秒）; D 视频文件名（视频要mp4结尾）; 
+E urlencode后的中文菜名 .jpg(或png，要统一)
 
-setting.txt
+
+
+setting.txt : 
 time1
 time2up
 time3dw
