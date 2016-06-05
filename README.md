@@ -1,5 +1,5 @@
-﻿# lmf2
-有烧烤功能
+﻿# lmf 8位继电器版,1wire测温
+更新clone下来的代码 git pull，视频要手动
 
 # lmf
 要装的程序
@@ -8,7 +8,7 @@
 $ sudo apt-get update
 
 $ sudo apt-get install feh ttf-wqy-zenhei samba-common-bin samba python3-rpi.gpio
-
+ python3-w1thermsensor
 $ sudo pip3 install pexpect aiohttp aiohttp_jinja2
 
 HDMI输出声音

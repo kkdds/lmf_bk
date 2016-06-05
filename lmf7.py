@@ -284,16 +284,16 @@ def setting(request):
     return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
 
-def SpiRead():
-    return str(21)
-
+from w1thermsensor import W1ThermSensor
 tempeture_1=0
 @asyncio.coroutine
 def get_temp():
     global tempeture_1
     while True:
         yield from asyncio.sleep(1.5)        
-        tempeture_1=SpiRead()
+        #tempeture_1=SpiRead()
+        for sensor in W1ThermSensor.get_available_sensors():
+            tempeture_1=sensor.get_temperature()
 
 
 @asyncio.coroutine

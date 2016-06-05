@@ -137,7 +137,8 @@ function getSta(){
 		var rj=JSON.parse(r);
 		shell_sta=rj.shell_sta;
 		running_sta=rj.running_sta;
-		$("#namescreen").text(rj.tmp1+40);
+		tempture1=rj.tmp1+40;
+		$("#namescreen").text(tempture1.toFixed(1));
 		update_sta();
 		ws=setInterval("getSta()", 500);
 	}).error(function() { 
