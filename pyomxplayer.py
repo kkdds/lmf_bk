@@ -6,12 +6,6 @@ from time import sleep
 
 class OMXPlayer(object):
 
-    _FILEPROP_REXP = re.compile(r".*audio streams (\d+) video streams (\d+) chapters (\d+) subtitles (\d+).*")
-    _VIDEOPROP_REXP = re.compile(r".*Video codec ([\w-]+) width (\d+) height (\d+) profile (\d+) fps ([\d.]+).*")
-    _AUDIOPROP_REXP = re.compile(r"Audio codec (\w+) channels (\d+) samplerate (\d+) bitspersample (\d+).*")
-    _STATUS_REXP = re.compile(r"V :\s*([\d.]+).*")
-    _DONE_REXP = re.compile(r"have a nice day.*")
-
     _LAUNCH_CMD = '/usr/bin/omxplayer -o hdmi %s %s'
     _PAUSE_CMD = 'p'
     _TOGGLE_SUB_CMD = 's'
@@ -32,7 +26,8 @@ class OMXPlayer(object):
  
     def _get_end(self):
         while True:
-            index = self._process.expect([pexpect.TIMEOUT])
+            index = self._process.expect([pexpect.TIMEOUT,
+                                            pexpect.EOF])
             if index == 1: continue
             else:
                 print('video end '+str(index))

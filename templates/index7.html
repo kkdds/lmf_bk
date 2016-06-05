@@ -109,9 +109,9 @@ function timesup(){
 	$('#btnoff').prop("disabled", true);
 	running_sta=false;
 	shell_sta=false;
-	$.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
+	//$.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
 		//var rj=JSON.parse(r);
-	});
+	//});
 }
 function doonoff(ckbtn){
 	if(running_sta=='0'){
