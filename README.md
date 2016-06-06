@@ -33,7 +33,7 @@ sudo pcmanfm 复制desktop文件到 /home/pi/.config/autostart
 HDMI输出声音
 $ sudo leafpad /boot/config.txt 里面设置HDMI_DRIVER=2,参数是：-o hdmi
 /boot/config.txt添加下面 
-dtoverlay=w1-gpio-pull,gpioin=4
+dtoverlay=w1-gpio-pullup,gpiopin=4
 
 
 
