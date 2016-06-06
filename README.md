@@ -11,9 +11,6 @@ $ sudo apt-get install feh ttf-wqy-zenhei samba-common-bin samba python3-rpi.gpi
  python3-w1thermsensor
 $ sudo pip3 install pexpect aiohttp aiohttp_jinja2
 
-HDMI输出声音
-$ sudo leafpad /boot/config.txt 里面设置HDMI_DRIVER=2,参数是：-o hdmi
-
 禁用屏保和休眠
 $ sudo leafpad /etc/lightdm/lightdm.conf 行xserver-command=X -s o -dpms
 
@@ -32,6 +29,9 @@ sudo smbpasswd -a pi 输入两次密码，重启
 sudo pcmanfm 复制desktop文件到 /home/pi/.config/autostart
 
 设定有线固定IP，设置中文，设置时区，设置背景,关闭设置里接口，开启1-wire
+
+HDMI输出声音
+$ sudo leafpad /boot/config.txt 里面设置HDMI_DRIVER=2,参数是：-o hdmi
 /boot/config.txt添加下面 
 dtoverlay=w1-gpio-pull,gpioin=4
 
