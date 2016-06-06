@@ -7,8 +7,7 @@
 
 $ sudo apt-get update
 
-$ sudo apt-get install feh ttf-wqy-zenhei samba-common-bin samba python3-rpi.gpio
- python3-w1thermsensor
+$ sudo apt-get install feh ttf-wqy-zenhei samba-common-bin samba python3-rpi.gpio python3-w1thermsensor
 $ sudo pip3 install pexpect aiohttp aiohttp_jinja2
 
 禁用屏保和休眠
