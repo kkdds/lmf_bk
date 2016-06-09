@@ -241,6 +241,14 @@ def return_sta(request):
                 tbody= '{"a":"shell","b":"stop"}'
             print(tbody)
             return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
+                
+        elif po['m'] == 'pump2':
+            GPIO.output(moto_2_f, 0)
+            GPIO.output(moto_2_r, 1)
+            p2.ChangeDutyCycle(int(po['spd']))
+            tbody= '{"a":"pump2","b":"'+po['spd']+'"}'
+            print(tbody)
+            return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
         
     else:
         tbody= '{"p":"error"}'

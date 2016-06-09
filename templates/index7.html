@@ -180,14 +180,14 @@ function shell_dw(){
 	  });
 }
 var sta_slave=true;
-function slave_on_off(){
+function slave_on_off(obj){
 	if(sta_slave){
 	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'fs',t:1},function(r){
-		  $('#btn_bw').val('保温 开');
+		  $(obj).val('保温 开');
 	  });
 	}else{
 	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fs'},function(r){
-		  $('#btn_bw').val('保温 关');
+		  $(obj).val('保温 关');
 	  });
 	}
 	sta_slave=!sta_slave;	
@@ -206,6 +206,20 @@ function shaokao_on_off(){
 	  });
 	}
 	sta_shaokao=!sta_shaokao;	
+}
+function liusui_on_off(obj,speed){
+	$('#btnqg_big_wat').prop("disabled",false);
+	$('#btnqg_sml_wat').prop("disabled",false);
+	$('#btnqg_off_wat').prop("disabled",false);
+	$.post('sta',{p:$('#pwd').val(),m:'pump2',spd:speed},function(r){
+		if(r.b==100){
+			$(obj).prop("disabled",true);
+		}else if(r.b==50){
+			$(obj).prop("disabled",true);
+		}else{
+			$(obj).prop("disabled",true);
+		}
+	});
 }
 function do_show_setting(){
 	$.post('setting',{m:'r'},function(r){
@@ -390,7 +404,7 @@ function do_show_cai_class(){
         <input type="button" id="btnoff" class="abtn" value="结束" onClick="doonoff(this)">
     </div>
     <div class="btn_div runscr">
-        <input type="button" class="abtn disable_when_running" id="btn_bw" value="保温" onClick="slave_on_off()">
+        <input type="button" class="abtn disable_when_running" id="btn_bw" value="保温" onClick="slave_on_off(this)">
         <input type="button" class="abtn " id="btn_sk" value="烧烤" onClick="shaokao_on_off()">
     </div>
     <div class="btn_div runscr">
@@ -400,12 +414,19 @@ function do_show_cai_class(){
 </div>
 <div id="run_type_40" style="display:none">
     <div class="btn_div runscr">
-        <input type="button" id="btnqg_big_wat" class="abtn " value="上水" onClick="#">
-        <input type="button" id="btnqg_sml_wat" class="abtn" value="流水" onClick="#">
+        <input type="button" id="btnqg_off_wat" style="width:30%" class="abtn" value="关闭" onClick="liusui_on_off(this,0)">
+        <input type="button" id="btnqg_sml_wat" style="width:30%" class="abtn" value="流水" onClick="liusui_on_off(this,50)">
+        <input type="button" id="btnqg_big_wat" style="width:30%" class="abtn" value="上水" onClick="liusui_on_off(this,100)">
     </div>
     <div class="btn_div runscr">
+        <input type="button" id="btnqg_sml_stm" class="abtn " value="保温" onClick="slave_on_off(this)">
         <input type="button" id="btnqg_big_stm"  class="abtn "value="蒸汽" onClick="#">
-        <input type="button" id="btnqg_sml_stm" class="abtn " value="保温" onClick="#">
+    </div>
+    <div class="btn_div runscr">
+    </div>
+    <div class="btn_div runscr">
+      <input type="button" class="abtn" value="播放视频" onClick="playvideo('01')">
+      <input type="button" class="abtn" value="停止播放" onClick="stopvideo()">
     </div>
 </div>
 </body>
