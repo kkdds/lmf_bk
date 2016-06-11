@@ -199,6 +199,10 @@ def return_sta(request):
             elif po['d']== 'sk':
                 GPIO.output(io_sk, 0)
                 tbody= '{"a":"sk","b":"on"}'
+            elif po['d']== 'ms':
+                GPIO.output(io_zq, 0)
+                GPIO.output(io_jr, 0)
+                tbody= '{"a":"ms","b":"on"}'
             print(tbody)
             return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
                 
@@ -214,6 +218,10 @@ def return_sta(request):
             elif po['d']== 'sk':
                 GPIO.output(io_sk, 1)
                 tbody= '{"a":"sk","b":"off"}'
+            elif po['d']== 'ms':
+                GPIO.output(io_zq, 1)
+                GPIO.output(io_jr, 1)
+                tbody= '{"a":"ms","b":"off"}'
             print(tbody)
             return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
                 
