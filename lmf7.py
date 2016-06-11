@@ -38,6 +38,9 @@ GPIO.output(io_jr, 1)
 GPIO.output(io_zq, 1)
 GPIO.output(io_sk, 1)
 GPIO.output(io_hx, 1)
+GPIO.output(io_e2, 1)
+GPIO.output(io_e3, 1)
+GPIO.output(io_e4, 1)
 
 moto_1_p=13 #脉宽输出
 moto_1_f=19 #正转
