@@ -210,7 +210,7 @@ function shaokao_on_off(){
 var main_steam=true;
 function main_steam_on_off(obj){
 	if(main_steam){
-	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'ms'},function(r){
+	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'ms',t:1},function(r){
 		  $(obj).val('蒸汽 开');
 	  });
 	}else{
