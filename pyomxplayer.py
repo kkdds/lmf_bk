@@ -28,7 +28,7 @@ class OMXPlayer(object):
         while True:
             index = self._process.expect([pexpect.TIMEOUT,
                                             pexpect.EOF])
-            if index == 1: continue
+            if index == 1: self.stop()
             else:
                 print('video end '+str(index))
                 #self.stop()
