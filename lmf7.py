@@ -359,7 +359,7 @@ def loop_info():
             if shell_ud_t1 > 0:
                 shell_ud_t1-=1
             elif shell_ud_t1 == 0:
-                p.ChangeDutyCycle(95)
+                p.ChangeDutyCycle(65)
                 shell_ud_t1 =-1
             elif shell_ud_t2u > 0:
                 shell_ud_t2u-=1

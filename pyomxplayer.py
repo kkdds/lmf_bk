@@ -38,7 +38,8 @@ class OMXPlayer(object):
             else:
                 print('video TIMEOUT '+str(index))
                 #self.stop()
-                break
+                #break
+                continue
         self._VOF=0
         self.stop()
             
