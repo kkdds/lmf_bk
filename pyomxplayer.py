@@ -10,14 +10,16 @@ class OMXPlayer(object):
     _PAUSE_CMD = 'p'
     _TOGGLE_SUB_CMD = 's'
     _QUIT_CMD = 'q'
+    _IMG_FILE = 'q'
 
     paused = False
     subtitles_visible = True
 
     _VOF=1
 
-    def __init__(self, mediafile):
+    def __init__(self, mediafile, imgfile):
         cmd = self._LAUNCH_CMD % (mediafile, '')
+        self._IMG_FILE = imgfile
         #print(cmd)
         self._process = pexpect.spawn(cmd)
 
@@ -26,15 +28,24 @@ class OMXPlayer(object):
  
     def _get_end(self):
         while True:
+            sleep(0.5)
             index = self._process.expect([pexpect.TIMEOUT,
                                             pexpect.EOF])
-            if index == 1: self.stop()
-            else:
-                print('video end '+str(index))
+            if index == 1: 
+                print('video press stop EOF '+str(index))
                 #self.stop()
                 break
-            sleep(0.5)
+            else:
+                print('video TIMEOUT '+str(index))
+                #self.stop()
+                break
         self._VOF=0
+        self.stop()
+            
+    def stop(self):
+        self._process.send(self._QUIT_CMD)
+        self._process.terminate(force=True)
+        self._process = pexpect.spawn('feh -F '+self._IMG_FILE)
 			
     def toggle_pause(self):
         if self._process.send(self._PAUSE_CMD):
@@ -43,10 +54,6 @@ class OMXPlayer(object):
     def toggle_subtitles(self):
         if self._process.send(self._TOGGLE_SUB_CMD):
             self.subtitles_visible = not self.subtitles_visible
-            
-    def stop(self):
-        self._process.send(self._QUIT_CMD)
-        self._process.terminate(force=True)
 
     def set_speed(self):
         raise NotImplementedError

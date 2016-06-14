@@ -8,7 +8,7 @@ import urllib.request
 import RPi.GPIO as GPIO
 from aiohttp import web
 from pyomxplayer import OMXPlayer
-from qiv import QIV
+#from qiv import QIV
 from urllib.parse import unquote
 
 stapwd='abc'
@@ -96,10 +96,11 @@ def index(request):
 
 
 omx=object
-qviv=object
+#qviv=object
 @asyncio.coroutine
 def video(request):
-    global omx,qviv
+    global omx
+	#,qviv
     global stapwd,setpwd,softPath
 
     po = yield from request.post()
@@ -107,17 +108,17 @@ def video(request):
     #yield from playv(request)
     if po['p'] == stapwd:
         if po['m'] == 'play':
-            print('video play')    
-            omx = OMXPlayer(softPath+'Videos/'+po['d']+'.mp4')
+            #print('video play...')    
+            omx = OMXPlayer(softPath+'Videos/'+po['d']+'.mp4',softPath+po['i'])
             tbody= '{"a":"video","b":"play"}'
-            while omx._VOF:
-                yield from asyncio.sleep(0.5)
-            qviv=QIV(softPath+'/'+po['i'])
+            #while omx._VOF:
+                #yield from asyncio.sleep(0.5)
+            #qviv=QIV(softPath+'/'+po['i'])
 
         elif po['m'] == 'stop':        
             omx.stop()
             tbody= '{"a":"video","b":"stop"}'
-            qviv=QIV(softPath+'/'+po['i'])
+            #qviv=QIV(softPath+'/'+po['i'])
 
         elif po['m'] == 'pause':        
             omx.toggle_pause()
