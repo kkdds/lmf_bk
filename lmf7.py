@@ -61,8 +61,14 @@ p2 = GPIO.PWM(moto_2_p, 50)
 p2.start(0)
 
 
-@aiohttp_jinja2.template('index7.html')
-def index(request):
+@aiohttp_jinja2.template('index1.html')
+def index1(request):
+    #使用aiohttp_jinja2  methed 2
+    return {'test': '3', 'caifiles': 'y'}
+
+
+@aiohttp_jinja2.template('index2.html')
+def index2(request):
     global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
     global softPath
     s = os.sep
@@ -395,7 +401,8 @@ def init(loop):
     #使用aiohttp_jinja2
     aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader('/home/pi/lmf/templates'))
     
-    app.router.add_route('*', '/', index)
+    app.router.add_route('*', '/', index1)
+    app.router.add_route('*', '/index2', index2)
     app.router.add_route('*', '/video', video)
     app.router.add_route('POST', '/sta', return_sta)
     app.router.add_route('POST', '/setting', setting)
@@ -404,7 +411,7 @@ def init(loop):
     app.router.add_static('/image',  softPath+'image')
     app.router.add_static('/imagetmb', softPath+'imagetmb')
     srv = yield from loop.create_server(app.make_handler(), '0.0.0.0', 9001)
-    print(' v7 server started at http://0.0.0.0:9001...')               
+    print(' v8 server started at http://0.0.0.0:9001...')               
     return srv
 
 loop = asyncio.get_event_loop()
