@@ -2,352 +2,80 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>原烹</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <link rel="stylesheet" type="text/css" href="../css/com.css"/>
 <link rel="stylesheet" type="text/css" href="../css/btn_style.css"/>
 <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="../js/time_js.js"></script>
 <script type='text/javascript' src='../js/jquery.modal.js'></script>
-<script type='text/javascript' src='../js/ktimer3.js'></script>
-<script type="text/javascript">
-var Gcaitime=5;
-var Gvname='js';
-var Gpcai='01';
-var Gscly=0;
-var Gshowtype='all';
-var shell_sta='9';
-var running_sta='9';
-$(document).ready(function(){  
-	$('#timep').pietimer({seconds: Gcaitime},function(){timesup();})
-    $(".runscr").css("display","none");
-	//$("#run_type").html($("#run_type_def").html());
-
-    $('#cntBtn').modal({
-        trigger:'#cntBtn',         // id or class of link or button to trigger modal
-        olay:'div.overlay',            // id or class of overlay
-        modals:'div#modal1',           // id or class of modal
-        close:'.closeBtn'              // id or class of close button
-    });
-    $('.modalLink2').modal({
-        trigger:'.modalLink2',
-        olay:'div.overlay',
-        modals:'div#modal2',
-        close:'.closeBtn'
-    });
-    $('#setBtn').modal({
-        trigger:'#setBtn',
-        olay:'div.overlay',
-        modals:'div#modal3',
-        close:'.closeBtn'
-    });
-	
-  $("#setMtimebtn").click(function(){	 
-    var cctime=parseInt($('#setMtime').val()); 
-	if(isNaN(cctime)){
-		return false;
-	}
-	Gcaitime=cctime;
-	$('#timep').pietimer({
-		seconds:cctime,
-	},function(){
-		timesup();
-	})
-	$('div.overlay').hide();
-	$('div.modal').hide();
-	return false;
-  });
-	
-  $(".scr_div").click(function(){
-	  if(running_sta==true){
-		  return false;
-	  }
-	  $(".scr_div").css("background-image","none");
-	  $(".item_div").css("display","block");
-	  $(".scr_div").scrollTop(Gscly);
-	  //$(".menubtn").prop("disabled",false);
-	  //$(".menubtn:eq(1)").prop("disabled",true);
-	  do_show_cai_class();
-	  return false;
-  });
-
-  $(".imgzone").click(function(){
-	  if(running_sta==true){
-		  return false;
-	  }
-	  Gcaitime=$(this).parent().attr("caitime");
-	  $('#timep').pietimer({seconds: Gcaitime},function(){timesup();})
-	  Gvname=$(this).parent().attr("vname");
-	  Gpcai=$(this).parent().attr("bgp");
-	  $(".scr_div").css("background-image","url('"+Gpcai+"')");
-	  Gscly=$(".scr_div").scrollTop();
-	  $(".item_div").css("display","none");
-	  
-	  caiclass=$(this).parent().attr("caiclass");
-	  if(caiclass=='30'){
-		  $("#run_type").empty();
-		  return false;
-	  }
-	  if(caiclass=='50'){
-		  $("#run_type").empty();
-		  return false;
-	  }
-	  if(caiclass!='40'){
-		  caiclass='def';
-	  }
-	  $("#run_type").html($("#run_type_"+caiclass).children().clone(true));
-	  return false;
-  });
-
-  $(".selzone").click(function(){
-	  $(this).toggleClass("myselcai");
-	  return false;
-  });
-
-});
-function timesup(){
-	$('#els_time').text('时间到');
-	$('#btnoff').prop("disabled", true);
-	running_sta=false;
-	shell_sta=false;
-	//$.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
-		//var rj=JSON.parse(r);
-	//});
-}
-function doonoff(ckbtn){
-	if(running_sta=='0'){
-	  $('#timep').pietimer('start');
-	  $('#btnon').prop("disabled", true);
-	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'fm',t:Gcaitime},function(r){
-		  //var rj=JSON.parse(r);
-		  $('#btnoff').prop("disabled", false);
-	  });
-	}else if(running_sta=='1'){
-	  $('#timep').pietimer('pause');
-	  $('#btnoff').prop("disabled", true);
-	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
-		  //var rj=JSON.parse(r);
-		  $('#btnon').prop("disabled", false);
-	  });
-	}
-	return false;
-}
-function getSta(){
-	clearInterval(ws);
-	$.post('sta',{p:$('#pwd').val(),m:'sta',d:453},function(r){
-		var rj=JSON.parse(r);
-		shell_sta=rj.shell_sta;
-		running_sta=rj.running_sta;
-		tempture1=rj.tmp1+40;
-		$("#namescreen").text(tempture1.toFixed(1));
-		update_sta();
-		ws=setInterval("getSta()", 500);
-	}).error(function() { 
-		disconnect();
-	});
-}
-function update_sta(){
-	if(shell_sta=='2'){
-		//$('#onoff').prop("disabled",false);
-	}
-	if(running_sta=='0'){
-		//$('.disable_when_running').prop("disabled",false);
-		$('#btnon').prop("disabled", false);
-		$('#btnoff').prop("disabled", true);
-	}
-	if(running_sta=='1'){
-		//$('.disable_when_running').prop("disabled",true);
-		$('#btnoff').prop("disabled", false);
-	}  
-}
-function playvideo(){
-	  $.post('video',{p:$('#pwd').val(),m:'play',d:Gvname,i:Gpcai},function(r){
-	  });
-}
-function stopvideo(){
-	  $.post('video',{p:$('#pwd').val(),m:'stop',i:Gpcai},function(r){
-	  });
-}
-function pausevideo(){
-	  $.post('video',{p:$('#pwd').val(),m:'pause'},function(r){
-	  });
-}
-function shell_up(){
-	  $.post('sta',{p:$('#pwd').val(),m:'shell',d:'up'},function(r){
-	  });
-}
-function shell_dw(){
-	  $.post('sta',{p:$('#pwd').val(),m:'shell',d:'dw'},function(r){
-	  });
-}
-var sta_slave=true;
-function slave_on_off(obj){
-	if(sta_slave){
-	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'fs',t:1},function(r){
-		  $(obj).val('保温 开');
-	  });
-	}else{
-	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fs'},function(r){
-		  $(obj).val('保温 关');
-	  });
-	}
-	sta_slave=!sta_slave;	
-}
-var sta_shaokao=true;
-function shaokao_on_off(){
-	if(sta_shaokao){
-	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'sk',t:1},function(r){
-		  $('#btn_sk').val('烧烤 开');
-		  $('.disable_when_running').prop("disabled",true);
-	  });
-	}else{
-	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'sk'},function(r){
-		  $('#btn_sk').val('烧烤 关');
-		  $('.disable_when_running').prop("disabled",false);
-	  });
-	}
-	sta_shaokao=!sta_shaokao;	
-}
-var main_steam=true;
-function main_steam_on_off(obj){
-	if(main_steam){
-	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'ms',t:1},function(r){
-		  $(obj).val('蒸汽 开');
-	  });
-	}else{
-	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'ms'},function(r){
-		  $(obj).val('蒸汽 关');
-	  });
-	}
-	main_steam=!main_steam;	
-}
-function liusui_on_off(obj,speed){
-	$('#btnqg_big_wat').prop("disabled",false);
-	$('#btnqg_sml_wat').prop("disabled",false);
-	$('#btnqg_off_wat').prop("disabled",false);
-	$.post('sta',{p:$('#pwd').val(),m:'pump2',spd:speed},function(r){
-		if(r.b==100){
-			$(obj).prop("disabled",true);
-		}else if(r.b==50){
-			$(obj).prop("disabled",true);
-		}else{
-			$(obj).prop("disabled",true);
-		}
-	});
-}
-function do_show_setting(){
-	$.post('setting',{m:'r'},function(r){
-		var rj=JSON.parse(r);
-		if(rj.p!='ok'){			
-			$('#t1').val(1);
-			$('#t2u').val(3);
-			$('#t2d').val(2);
-			$('#t3').val(1);
-			return;
-		}
-		$('#t1').val(rj.t1);
-		$('#t2u').val(rj.t2u);
-		$('#t2d').val(rj.t2d);
-		$('#t3').val(rj.t3);
-	});
-	return;
-}
-function do_save_setting(){
-	$.post('setting',{
-		m:'w',
-		p:$('#setting_pwd').val(),
-		t1:$('#t1').val(),
-		t2u:$('#t2u').val(),
-		t2d:$('#t2d').val(),
-		t3:$('#t3').val()
-	},function(r){
-		var rj=JSON.parse(r);
-		if(rj.p!='ok'){
-			$('#setting_save_btn').val('密码错');
-			return;
-		}
-	$('#setting_save_btn').val('保存');
-	$('div.overlay').hide();
-	$('div.modal').hide();
-	});
-	return;
-}
-function show_cai_class(showtype,cbtn){
-	$(".scr_div").css("background-image","none");
-	//$(".menubtn").prop("disabled",false);
-	//$(cbtn).prop("disabled",true);
-	$(".menubtn").removeClass("classsel");
-	$(cbtn).addClass("classsel");
-	$(".scr_div").scrollTop();
-	Gshowtype=showtype;
-	do_show_cai_class();
-}
-function do_show_cai_class(){
-	showtype=Gshowtype;
-	$(".item_div").css("display","none");
-	switch (showtype){
-	case 'my':
-		$(".myselcai").parent().css("display","block");
-	break;
-	case 'all':
-		$(".item_div").css("display","block");
-	break;
-	case '10':
-		$(".caiclass10").css("display","block");
-	break;
-	case '20':
-		$(".caiclass20").css("display","block");
-	break;
-	case '30':
-		$(".caiclass30").css("display","block");
-	break;
-	case '40':
-		$(".caiclass40").css("display","block");
-	break;
-	case '50':
-		$(".caiclass50").css("display","block");
-	break;
-	case '60':
-		$(".caiclass60").css("display","block");
-	break;
-	case '70':
-		$(".caiclass70").css("display","block");
-	break;
-	}
-}
-</script>
+<script type='text/javascript' src='../js/kconnect.js'></script>
+<script type="text/javascript" src='../js/lmf.js'></script>
 </head>
 <body>
-<div class="left_div">
-  <div class="class_div">
-    <div style="height:10px"></div>
-    <div class="classbtn_div">
-        <input type="button" class="menubtn" value="我的菜单" onClick="show_cai_class('my',this)">
+<div class="container">
+    <!-- Codrops top bar -->
+    <div class="codrops-top">
+    <table width="100%" border="0" style="font-size:18px">
+      <tr>
+        <td><a href="./">
+            <strong>介绍</strong>
+        </a>
+        </td>
+        <td><a href="#" onClick="show_cai_class('all',this)">
+            <strong>菜单</strong>
+        </a>
+        </td>
+        <td><a href="#" onClick="show_cai_class('my',this)">
+                <strong>烹饪</strong>
+            </a>
+        </td>
+        <td><a href="#">
+                <strong>点评</strong>
+            </a>
+        </td>
+        <td><a href="#">
+                <strong>设置</strong>
+            </a>
+        </td>
+      </tr>
+    </table>
     </div>
-    <div class="classbtn_div">
-        <input type="button" class="menubtn classsel" value="全部分类" onClick="show_cai_class('all',this)">
-    </div>
-    <div class="classbtn_div">
+</div>
+<div class="top_div">
+    <div class="class_div" style="background-color:#FFF">
+    <table width="100%" border="0" style="font-size:18px">
+      <tr>
+        <td>
+        <input type="button" class="menubtn" value="已选" onClick="show_cai_class('my',this)">
+        </td>
+        <td>
+        <input type="button" class="menubtn classsel" value="全部" onClick="show_cai_class('all',this)">
+        </td>
+        <td>
         <input type="button" class="menubtn" value="冰烹" onClick="show_cai_class('10',this)">
-    </div>
-    <div class="classbtn_div">
+        </td>
+        <td>
         <input type="button" class="menubtn" value="原烹" onClick="show_cai_class('70',this)">
-    </div>
-    <div class="classbtn_div">
+        </td>
+        <td>
         <input type="button" class="menubtn" value="味烹" onClick="show_cai_class('60',this)">
-    </div>
-    <div class="classbtn_div">
+        </td>
+        <td>
         <input type="button" class="menubtn" value="冷菜" onClick="show_cai_class('30',this)">
-    </div>
-    <div class="classbtn_div">
+        </td>
+        <td>
         <input type="button" class="menubtn" value="泉锅" onClick="show_cai_class('40',this)">
-    </div>
-    <div class="classbtn_div">
+        </td>
+        <td>
         <input type="button" class="menubtn" value="汤品" onClick="show_cai_class('50',this)">
+        </td>
+        <td>
+        <input type="button" class="menubtn" value="甜品" onClick="show_cai_class('20',this)">
+        </td>
+      </tr>
+    </table>
     </div>
-    <div class="classbtn_div">
-        <input type="button" class="menubtn" value="点心甜品" onClick="show_cai_class('20',this)">
-    </div>
-  </div>
 </div>
 <div class="mid_div">
   <div class="scr_div">
@@ -360,20 +88,27 @@ function do_show_cai_class(){
               {{values.2}} {{values.3}} 秒
           </div>
       </div>
-  {% endfor %}
+  {% endfor %}    
+    <div class="time-item runscr modalLink2">
+    	<div style="width:150px; background-color:#FFF; float:left;text-align:center; margin-right:0px">
+          <div style=" font-size:18px;">min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sec</div>
+          <span id="minute_show">0</span>:<span id="second_show">0
+    	</div>           
+    	<div style="width:240px; background-color:#FFF; float:left; text-align:center">
+          <div><span id="namescreen">v7</span> ℃</div>
+          <div style="font-size:18px">实时温度</div>
+    	</div>
+    </div>    
   </div>
 </div>
-<div class="right_div">
-  <div class="ctrl_div">  
-    <div style="padding-bottom:15px">
-    	<span id="namescreen" class="namescreen" style="width:30%">v7</span> ℃ &nbsp; &nbsp;
-    	<input type="button" id="cntBtn" class="abtn disable_when_running " style="width:30%" value="连接">
-    	<input type="button" id="setBtn" class="abtn disable_when_running " style="width:30%" value="设置"  onClick="do_show_setting()">
-    </div>
-    <div class="btn_div runscr modalLink2">
-      <p id="timep"></p>            
-    </div>
-    <div id="run_type"></div>
+
+<div class="btm_div">
+  <div class="codrops-top" style="background-color:#EEECEA;box-shadow:none;">
+    <div style="padding:15px">    	
+    	<input type="button" id="cntBtn" class="abtn bbtn disable_when_running " value="连接">
+    	<input type="button" id="setBtn" class="abtn bbtn disable_when_running " value="设置"  onClick="do_show_setting()">
+    <span id="run_type"></span>
+    </div>            
   </div>
 </div>
 
@@ -408,40 +143,29 @@ function do_show_cai_class(){
 </div>
 <div class="modal" id="caitmp"></div>
 <div id="run_type_def" style="display:none">
-    <div class="btn_div runscr">
-        <input type="button" class="abtn " value="盖子 开" onClick="shell_up()">
-        <input type="button" class="abtn " value="盖子 合" onClick="shell_dw()">
-    </div>
-    <div class="btn_div runscr">
-        <input type="button" id="btnon" class="abtn disable_when_running" value="开始" onClick="doonoff(this)">
-        <input type="button" id="btnoff" class="abtn" value="结束" onClick="doonoff(this)">
-    </div>
-    <div class="btn_div runscr">
-        <input type="button" class="abtn disable_when_running" id="btn_bw" value="保温" onClick="slave_on_off(this)">
-        <input type="button" class="abtn " id="btn_sk" value="烧烤" onClick="shaokao_on_off()">
-    </div>
-    <div class="btn_div runscr">
-      <input type="button" class="abtn" value="播放视频" onClick="playvideo('01')">
-      <input type="button" class="abtn" value="停止播放" onClick="stopvideo()">
-    </div>
+  <input type="button" class="abtn bbtn " value="盖子 开" onClick="shell_up()">
+  <input type="button" class="abtn bbtn " value="盖子 合" onClick="shell_dw()">
+  
+  <input type="button" id="btnon" class="abtn bbtn disable_when_running" value="开始" onClick="doonoff(this)">
+  <input type="button" id="btnoff" class="abtn bbtn" value="结束" onClick="doonoff(this)">
+  
+  <input type="button" class="abtn bbtn disable_when_running" id="btn_bw" value="保温" onClick="slave_on_off(this)">
+  <input type="button" class="abtn bbtn " id="btn_sk" value="烧烤" onClick="shaokao_on_off()">
+  
+  <input type="button" class="abtn bbtn" value="播放视频" onClick="video_on_off(this)">
 </div>
 <div id="run_type_40" style="display:none">
-    <div class="btn_div runscr">
-        <input type="button" class="abtn " value="盖子 开" onClick="shell_up()">
-        <input type="button" class="abtn " value="盖子 合" onClick="shell_dw()">
-    </div>
-    <div class="btn_div runscr">
-        <input type="button" id="btnqg_off_wat" style="width:30%" class="abtn" value="关闭" onClick="liusui_on_off(this,0)">
-        <input type="button" id="btnqg_sml_wat" style="width:30%" class="abtn" value="流水" onClick="liusui_on_off(this,50)">
-        <input type="button" id="btnqg_big_wat" style="width:30%" class="abtn" value="上水" onClick="liusui_on_off(this,100)">
-    </div>
-    <div class="btn_div runscr">
-        <input type="button" id="btnqg_sml_stm" class="abtn " value="保温" onClick="slave_on_off(this)">
-        <input type="button" id="btnqg_big_stm"  class="abtn "value="蒸汽" onClick="main_steam_on_off(this)">
-    </div>
-    <div class="btn_div runscr">
-      <input type="button" class="abtn" value="播放视频" onClick="playvideo('01')">
-      <input type="button" class="abtn" value="停止播放" onClick="stopvideo()">
+  <input type="button" class="abtn bbtn " value="盖子 开" onClick="shell_up()">
+  <input type="button" class="abtn bbtn " value="盖子 合" onClick="shell_dw()">
+  
+  <input type="button" id="btnqg_off_wat" class="abtn bbtn" value="关闭" onClick="liusui_on_off(this,0)">
+  <input type="button" id="btnqg_sml_wat" class="abtn bbtn" value="流水" onClick="liusui_on_off(this,50)">
+  <input type="button" id="btnqg_big_wat" class="abtn bbtn" value="上水" onClick="liusui_on_off(this,100)">
+  
+  <input type="button" id="btnqg_sml_stm" class="abtn bbtn " value="保温" onClick="slave_on_off(this)">
+  <input type="button" id="btnqg_big_stm" class="abtn bbtn "value="蒸汽" onClick="main_steam_on_off(this)">
+  
+  <input type="button" class="abtn bbtn" value="播放视频" onClick="video_on_off(this)">
     </div>
 </div>
 </body>

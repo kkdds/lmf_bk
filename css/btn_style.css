@@ -115,4 +115,5 @@
 .switch input:disabled ~ label i {
     color:red;
 }
+.time-item {display:none;margin:280px 0px 0;padding:6px 0px; font-size:48px; width:500px}
  
