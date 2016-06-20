@@ -34,7 +34,7 @@
                 <strong>点评</strong>
             </a>
         </td>
-        <td><a href="#">
+        <td><a href="./set">
                 <strong>设置</strong>
             </a>
         </td>
@@ -44,37 +44,15 @@
 </div>
 <div class="top_div">
     <div class="class_div" style="background-color:#FFF">
-    <table width="100%" border="0" style="font-size:18px">
-      <tr>
-        <td>
-        <input type="button" class="menubtn" value="已选" onClick="show_cai_class('my',this)">
-        </td>
-        <td>
-        <input type="button" class="menubtn classsel" value="全部" onClick="show_cai_class('all',this)">
-        </td>
-        <td>
-        <input type="button" class="menubtn" value="冰烹" onClick="show_cai_class('10',this)">
-        </td>
-        <td>
-        <input type="button" class="menubtn" value="原烹" onClick="show_cai_class('70',this)">
-        </td>
-        <td>
-        <input type="button" class="menubtn" value="味烹" onClick="show_cai_class('60',this)">
-        </td>
-        <td>
-        <input type="button" class="menubtn" value="冷菜" onClick="show_cai_class('30',this)">
-        </td>
-        <td>
-        <input type="button" class="menubtn" value="泉锅" onClick="show_cai_class('40',this)">
-        </td>
-        <td>
-        <input type="button" class="menubtn" value="汤品" onClick="show_cai_class('50',this)">
-        </td>
-        <td>
-        <input type="button" class="menubtn" value="甜品" onClick="show_cai_class('20',this)">
-        </td>
-      </tr>
-    </table>
+        <input type="button" value="" style="background-position:0px 0px;" id="se" class="tbtn menubtn" onClick="show_cai_class('my',this)">
+        <input type="button" value="" style="background-position:0px 0px;" id="al" class="tbtn menubtn classsel" onClick="show_cai_class('all',this)">
+        <input type="button" value="" style="background-position:0px 0px;" id="bp" class="tbtn menubtn" onClick="show_cai_class('10',this)">
+        <input type="button" value="" style="background-position:-115px 0px;" id="yp" class="tbtn menubtn" onClick="show_cai_class('70',this)">
+        <input type="button" value="" style="background-position:-248px 0px;" id="wp" class="tbtn menubtn" onClick="show_cai_class('60',this)">
+        <input type="button" value="" style="background-position:0px 0px;" id="lc" class="tbtn menubtn" onClick="show_cai_class('30',this)">
+        <input type="button" value="" style="background-position:-385px 0px;" id="qp" class="tbtn menubtn" onClick="show_cai_class('40',this)">
+        <input type="button" value="" style="background-position:0px 0px;" id="tp" class="tbtn menubtn" onClick="show_cai_class('50',this)">
+        <input type="button" value="" style="background-position:-505px 0px;" id="dx" class="tbtn menubtn" onClick="show_cai_class('20',this)">
     </div>
 </div>
 <div class="mid_div">
@@ -104,7 +82,7 @@
 
 <div class="btm_div">
   <div class="codrops-top" style="background-color:#EEECEA;box-shadow:none;">
-    <div style="padding:15px">    	
+    <div style="padding:6px">    	
     	<input type="button" id="cntBtn" class="abtn bbtn disable_when_running " value="连接">
     	<input type="button" id="setBtn" class="abtn bbtn disable_when_running " value="设置"  onClick="do_show_setting()">
     <span id="run_type"></span>
@@ -143,27 +121,26 @@
 </div>
 <div class="modal" id="caitmp"></div>
 <div id="run_type_def" style="display:none">
-  <input type="button" class="abtn bbtn " value="盖子 开" onClick="shell_up()">
-  <input type="button" class="abtn bbtn " value="盖子 合" onClick="shell_dw()">
+  <input type="button" class="cbtn" value="" style="background-position:0px 0px;" onClick="shell_up()">
+  <input type="button" class="cbtn" value="" style="background-position:-105px 0px;" onClick="shell_dw()">
   
-  <input type="button" id="btnon" class="abtn bbtn disable_when_running" value="开始" onClick="doonoff(this)">
-  <input type="button" id="btnoff" class="abtn bbtn" value="结束" onClick="doonoff(this)">
+  <input type="button" id="btnon" class="cbtn disable_when_running" style="background-position:-210px 0px;" value="开始" onClick="doonoff(this)">
+  <input type="button" id="btnoff" class="cbtn" value="结束" style="background-position:70px 0px;" onClick="doonoff(this)">
   
-  <input type="button" class="abtn bbtn disable_when_running" id="btn_bw" value="保温" onClick="slave_on_off(this)">
-  <input type="button" class="abtn bbtn " id="btn_sk" value="烧烤" onClick="shaokao_on_off()">
+  <input type="button" class="cbtn disable_when_running" id="btn_bw" value="" style="background-position:-392px 0px;" onClick="slave_on_off(this)">
+  <input type="button" style="background-position:-486px 0px;" id="btn_sk" value="" class="cbtn" onClick="shaokao_on_off()">
   
-  <input type="button" class="abtn bbtn" value="播放视频" onClick="video_on_off(this)">
+  <input type="button" class="cbtn" value="播放视频" onClick="video_on_off(this)">
 </div>
 <div id="run_type_40" style="display:none">
-  <input type="button" class="abtn bbtn " value="盖子 开" onClick="shell_up()">
-  <input type="button" class="abtn bbtn " value="盖子 合" onClick="shell_dw()">
+  <input type="button" class="cbtn" value="" style="background-position:0px 0px;" onClick="shell_up()">
+  <input type="button" class="cbtn" value="" style="background-position:-105px 0px;" onClick="shell_dw()">
   
-  <input type="button" id="btnqg_off_wat" class="abtn bbtn" value="关闭" onClick="liusui_on_off(this,0)">
-  <input type="button" id="btnqg_sml_wat" class="abtn bbtn" value="流水" onClick="liusui_on_off(this,50)">
-  <input type="button" id="btnqg_big_wat" class="abtn bbtn" value="上水" onClick="liusui_on_off(this,100)">
+  <input type="button" id="btnqg_big_wat" class="cbtn" value="" onClick="liusui_b_on_off(this,100)" style="background-position:-590px 0px;">
+  <input type="button" id="btnqg_sml_wat" class="cbtn" value="" onClick="liusui_b_on_off(this,50)" style="background-position:-692px 0px;">
   
-  <input type="button" id="btnqg_sml_stm" class="abtn bbtn " value="保温" onClick="slave_on_off(this)">
-  <input type="button" id="btnqg_big_stm" class="abtn bbtn "value="蒸汽" onClick="main_steam_on_off(this)">
+  <input type="button" class="cbtn disable_when_running" id="btn_bw2" value="" style="background-position:-392px 0px;" onClick="slave_on_off(this)">
+  <input type="button" id="btnqg_big_stm" class="cbtn" value="" style="background-position:-300px 0px;" onClick="main_steam_on_off(this)">
   
   <input type="button" class="abtn bbtn" value="播放视频" onClick="video_on_off(this)">
     </div>

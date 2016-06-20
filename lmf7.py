@@ -10,10 +10,21 @@ from aiohttp import web
 from pyomxplayer import OMXPlayer
 #from qiv import QIV
 from urllib.parse import unquote
+import configparser
 
 stapwd='abc'
 setpwd='lmf2016'
 softPath='/home/pi/lmf/'
+
+kconfig=configparser.ConfigParser()
+kconfig.read(softPath+"setting.ini")
+shell_ud_t1_set=kconfig.getint("yp","shell_ud_t1_set")
+shell_ud_t2u_set=kconfig.getint("yp","shell_ud_t2u_set")
+shell_ud_t2d_set=kconfig.getint("yp","shell_ud_t2d_set")
+shell_ud_t3_set=kconfig.getint("yp","shell_ud_t3_set")
+shell_sdu = kconfig.getint("yp","shell_sdu")
+shell_sdd = kconfig.getint("yp","shell_sdd")
+stapwd = kconfig.get("yp","stapwd")
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -60,6 +71,34 @@ GPIO.setup(moto_2_p, GPIO.OUT)
 p2 = GPIO.PWM(moto_2_p, 50)
 p2.start(0)
 
+huixiqi=0
+watchdog=0
+eTimer1=False
+eIntval1=5
+eTimer2=False
+eIntval2=8
+sta_shell=0
+sta_onoff=0
+shell_up_down=0
+
+shell_ud_t1=1
+shell_ud_t2u=2
+shell_ud_t2d=2
+shell_ud_t3=1
+'''
+shell_sta
+0 top stop
+1 running
+2 bottom stop
+
+shell_up_down
+0 to up
+2 to bottom
+
+running_sta
+0 stop
+1 running
+'''
 
 @aiohttp_jinja2.template('index1.html')
 def index1(request):
@@ -87,44 +126,49 @@ def index2(request):
             caifiles.append([i,caiclass,cainame,dltime,videoname,bigimg])
             
     caifiles.sort()
-
-    file_object=open(softPath+'setting.txt','r')    # r只读，w可写，a追加    
-    shell_ud_t1_set=int(file_object.readline())
-    shell_ud_t2u_set=int(file_object.readline())
-    shell_ud_t2d_set=int(file_object.readline())
-    shell_ud_t3_set=int(file_object.readline())
-    #for line in file_object:
-         #print(line)
-    file_object.close()
-
     #使用aiohttp_jinja2  methed 2
     return {'test': '3', 'caifiles': caifiles}
 
 
+@aiohttp_jinja2.template('set.html')
+def setpage(request):
+    #global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
+    #global softPath
+    shell_ud_t1_set=kconfig.getint("yp","shell_ud_t1_set")
+    shell_ud_t2u_set=kconfig.getint("yp","shell_ud_t2u_set")
+    shell_ud_t2d_set=kconfig.getint("yp","shell_ud_t2d_set")
+    shell_ud_t3_set=kconfig.getint("yp","shell_ud_t3_set")
+    shell_sdu = kconfig.getint("yp","shell_sdu")
+    shell_sdd = kconfig.getint("yp","shell_sdd")
+    stapwd = kconfig.get("yp","stapwd")
+    s_arr = {"t1":str(shell_ud_t1_set),"t2u":str(shell_ud_t2u_set)}
+    s_arr['t2d'] = str(shell_ud_t2d_set)
+    s_arr['t3'] = str(shell_ud_t3_set)
+    s_arr['sdu'] = str(shell_sdu)
+    s_arr['sdd'] = str(shell_sdd)
+    s_arr['stapwd'] = stapwd
+    #print(s_arr)
+    #使用aiohttp_jinja2  methed 2
+    #return {"p":"ok","t1":str(shell_ud_t1_set),"t2u":str(shell_ud_t2u_set),"t2d":str(shell_ud_t2d_set),"t3":str(shell_ud_t3_set)}
+    return {"p":"ok","r":s_arr}
+
+
 omx=object
-#qviv=object
 @asyncio.coroutine
 def video(request):
     global omx
-	#,qviv
     global stapwd,setpwd,softPath
 
     po = yield from request.post()
-    #print(po)
-    #yield from playv(request)
     if po['p'] == stapwd:
         if po['m'] == 'play':
             #print('video play...')    
             omx = OMXPlayer(softPath+'Videos/'+po['d']+'.mp4',softPath+po['i'])
             tbody= '{"a":"video","b":"play"}'
-            #while omx._VOF:
-                #yield from asyncio.sleep(0.5)
-            #qviv=QIV(softPath+'/'+po['i'])
 
         elif po['m'] == 'stop':        
             omx.stop()
             tbody= '{"a":"video","b":"stop"}'
-            #qviv=QIV(softPath+'/'+po['i'])
 
         elif po['m'] == 'pause':        
             omx.toggle_pause()
@@ -134,39 +178,6 @@ def video(request):
         
     print(tbody)
     return web.Response(headers='' ,body=tbody.encode('utf-8'))
-
-huixiqi=0
-watchdog=0
-eTimer1=False
-eIntval1=5
-eTimer2=False
-eIntval2=8
-sta_shell=0
-sta_onoff=0
-shell_up_down=0
-
-shell_ud_t1_set=0
-shell_ud_t2u_set=0
-shell_ud_t2d_set=0
-shell_ud_t3_set=0
-shell_ud_t1=1
-shell_ud_t2u=2
-shell_ud_t2d=2
-shell_ud_t3=1
-'''
-shell_sta
-0 top stop
-1 running
-2 bottom stop
-
-shell_up_down
-0 to up
-2 to bottom
-
-running_sta
-0 stop
-1 running
-'''
 
 @asyncio.coroutine
 def return_sta(request):
@@ -276,33 +287,31 @@ def return_sta(request):
 
 @asyncio.coroutine
 def setting(request):
-    global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
-    global stapwd,setpwd,softPath 
-
+    #global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
+    #global stapwd,setpwd,softPath 
     hhdd=[('Access-Control-Allow-Origin','*')]
     po = yield from request.post()
-    if po['m'] == 'r':
-        #r+ 以读写模式打开 r只读，w可写，a追加
-        file_object=open(softPath+'setting.txt','r+')
-        shell_ud_t1_set=int(file_object.readline())
-        shell_ud_t2u_set=int(file_object.readline())
-        shell_ud_t2d_set=int(file_object.readline())
-        shell_ud_t3_set=int(file_object.readline())
-        file_object.close()
-        tbody= '{"p":"ok","t1":"'+str(shell_ud_t1_set)+'","t2u":"'+str(shell_ud_t2u_set)+'","t2d":"'+str(shell_ud_t2d_set)+'","t3":"'+str(shell_ud_t3_set)+'"}'            
+    if po['m'] == 'l' and po['p'] == setpwd:
+        tbody= '{"p":"ok"}'
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
     if po['m'] == 'w' and po['p'] == setpwd:
-        file_object=open(softPath+'setting.txt','r+')
-        shell_ud_t1_set=int(po['t1'])
-        shell_ud_t2u_set=int(po['t2u'])
-        shell_ud_t2d_set=int(po['t2d'])
-        shell_ud_t3_set=int(po['t3'])
-        file_object.write(str(shell_ud_t1_set)+'\n')
-        file_object.write(str(shell_ud_t2u_set)+'\n')
-        file_object.write(str(shell_ud_t2d_set)+'\n')
-        file_object.write(str(shell_ud_t3_set)+'\n')
-        file_object.close()
+        shell_ud_t1_set=po['t1']
+        shell_ud_t2u_set=po['t2u']
+        shell_ud_t2d_set=po['t2d']
+        shell_ud_t3_set=po['t3']
+        shell_sdu=po['sdu']
+        shell_sdd=po['sdd']
+        stapwd=po['stapwd']
+        kconfig.set("yp","shell_ud_t1_set",str(shell_ud_t1_set))
+        kconfig.set("yp","shell_ud_t2u_set",str(shell_ud_t2u_set))
+        kconfig.set("yp","shell_ud_t2d_set",str(shell_ud_t2d_set))
+        kconfig.set("yp","shell_ud_t3_set",str(shell_ud_t3_set))
+        kconfig.set("yp","shell_sdu",str(shell_sdu))
+        kconfig.set("yp","shell_sdd",str(shell_sdd))
+        kconfig.set("yp","stapwd",stapwd)
+        kconfig.write(open(softPath+"setting.ini","w"))
+
         tbody= '{"p":"ok","w":"ok"}'            
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
         
@@ -370,12 +379,12 @@ def loop_info():
             elif shell_ud_t2u > 0:
                 shell_ud_t2u-=1
             elif shell_ud_t2u == 0:
-                p.ChangeDutyCycle(10)
+                p.ChangeDutyCycle(shell_sdu)
                 shell_ud_t2u =-1
             elif shell_ud_t2d > 0:
                 shell_ud_t2d-=1
             elif shell_ud_t2d == 0:
-                p.ChangeDutyCycle(10)
+                p.ChangeDutyCycle(shell_sdd)
                 shell_ud_t2d =-1
             elif shell_ud_t3 > 0:
                 shell_ud_t3-=1
@@ -403,6 +412,7 @@ def init(loop):
     
     app.router.add_route('*', '/', index1)
     app.router.add_route('*', '/index2', index2)
+    app.router.add_route('*', '/set', setpage)
     app.router.add_route('*', '/video', video)
     app.router.add_route('POST', '/sta', return_sta)
     app.router.add_route('POST', '/setting', setting)

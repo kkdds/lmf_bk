@@ -91,15 +91,7 @@ a{
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
     padding: 0px 0px 5px 0px;
 }
-.container > header h1 span{
 
-}
-.container > header h2, p.info{
-	font-size: 16px;
-	font-style: italic;
-	color: #f8f8f8;
-	text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
-}
 /* Header Style */
 .codrops-top{
 	font-family: Arial, sans-serif;
@@ -107,7 +99,7 @@ a{
 	font-size: 11px;
 	width: 100%;
 	background: #333333;
-	opacity: 0.9;
+	opacity: 0.8;
 	text-transform: uppercase;
 	z-index: 999;
 	position: relative;

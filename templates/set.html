@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>原烹</title>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" href="../css/com.css"/>
+<link rel="stylesheet" type="text/css" href="../css/btn_style.css"/>
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
+<script type='text/javascript' src='../js/kconnect.js'></script>
+<script type="text/javascript">
+function do_save_setting(obj){
+	$.post('setting',{
+		m:'w',
+		p:$('#setting_pwd').val(),
+		t1:$('#t1').val(),
+		t2u:$('#t2u').val(),
+		t2d:$('#t2d').val(),
+		t3:$('#t3').val(),
+		sdu:$('#sdu').val(),
+		sdd:$('#sdd').val(),
+		stapwd:$('#stapwd').val()
+	},function(r){
+		var rj=JSON.parse(r);
+		if(rj.p!='ok'){
+			$(obj).val('保存失败');
+		}else{
+			$(obj).val('保存成功');			
+		}
+	});
+	return;
+}
+function save_login(){
+	$.post('setting',{
+		m:'l',
+		p:$('#setting_pwd').val(),
+	},function(r){
+		var rj=JSON.parse(r);
+		if(rj.p=='ok'){
+			$('.overlay').css('display','none');
+		}else{
+			$('#setting_save_info').html('密码错');
+		}
+	});
+	return;
+}
+</script>
+</head>
+<body>
+<div class="container">
+    <!-- Codrops top bar -->
+    <div class="codrops-top">
+    <table width="100%" border="0" style="font-size:18px">
+      <tr>
+        <td><a href="./">
+            <strong>介绍</strong>
+        </a>
+        </td>
+        <td><a href="./index2">
+            <strong>菜单</strong>
+        </a>
+        </td>
+        <td><a href="./index2">
+                <strong>烹饪</strong>
+            </a>
+        </td>
+        <td><a href="#">
+                <strong>点评</strong>
+            </a>
+        </td>
+        <td><a href="./set">
+                <strong>设置</strong>
+            </a>
+        </td>
+      </tr>
+    </table>
+    </div>
+</div>
+
+<div class="mid_div">
+  <div class="set_div">  
+	启动(毫秒)： <input type="number" id="t1" value="{{r.t1}}" step="1" min="1" max="200"/>
+	停止(毫秒)： <input type="number" id="t3" value="{{r.t3}}" step="1" min="1" max="200"/> 
+  </div>
+  <div class="set_div">  
+	向上全速(毫秒)： <input type="number" id="t2u" value="{{r.t2u}}" step="1" min="1" max="200"/>
+	向下全速(毫秒)： <input type="number" id="t2d" value="{{r.t2d}}" step="1" min="1" max="200"/>
+  </div>
+  <div class="set_div">  
+	到顶终速(毫秒)： <input type="number" id="sdu" value="{{r.sdu}}" step="1" min="1" max="200"/>
+	到底终速(毫秒)： <input type="number" id="sdd" value="{{r.sdd}}" step="1" min="1" max="200"/> 
+  </div>
+  <div class="set_div">  
+	烹饪密码： <input type="text" id="stapwd" class="sett" value="{{r.stapwd}}"/>
+	备用： <input type="number" id="bbyy"  value="{{r.bbyy}}" step="1" min="1" max="200"/> 
+  </div>
+    <input type="button" class="abtn bbtn " value="保存" style="font-size:36px;" onClick="do_save_setting(this)">
+</div>
+
+<div class="overlay" style="display:block; background-color: #000; opacity:1">
+  <div style="top:30%; left:25%; position:absolute; color:#FFF; text-align:center">  
+    <h1>请输入密码</h1>
+    <p><input type="text" id="setting_pwd" placeholder="请输入密码" value="" style="font-size:36px; width:300px"/>
+      <input type="button" class="lbtn" value="登录 >" onClick="save_login()" >
+    </p>
+    <p style="text-align:right">
+      <span id="setting_save_info" style="color:#F00"></span>
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

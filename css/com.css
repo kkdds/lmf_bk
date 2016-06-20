@@ -7,18 +7,18 @@ background-size:100% 100%;
 }
 .top_div{margin:10px 0 0 0;}
 .class_div{
-	width:90%; height:95%; display:inline-block; 
+/*	width:99%; height:95%; display:inline-block; 
 	background-color:rgba(0,0,0,0.5);;
   -webkit-border-radius:6px;
   -moz-border-radius:6px;
   border-radius:6px;
-  padding: 0.5em 0  0 0.5em;
   color:#000000;
   font-size:1.0em;
   overflow: auto;
   background-repeat: no-repeat;
   background-size:cover;
-  background-position:center center;
+  background-position:center center;*/
+  padding:0 0 0 16px;
 }
 .mid_div{
   height:68%; width:100%; 
@@ -48,10 +48,10 @@ background-size:100% 100%;
   color:#ffffff;
 }
 .item_div{
-  width:24%; height:200px; 
-  float:left; text-align:center;
+  width:24%; height:190px; 
+  float:left; text-align:left;
   background-color:#ffffff;
-  margin:5px 3px;/*padding:6px 3px;*/
+  margin:5px 3px;
   background-repeat: no-repeat;
   background-size:cover;
   /*-webkit-box-shadow:3px 3px 5px #555;  
@@ -63,7 +63,7 @@ background-size:100% 100%;
   color:#ffffff;
   bottom:0px;
   position: relative;
-  padding:6px 0px;
+  padding:6px 12px;
   font-size:20px;
   /*height:20%;
   line-height:48px;
@@ -125,9 +125,42 @@ background-size:100% 100%;
 .abtn:active{
   background-color:#FBD88F;
 }
-
+.cbtn{
+  /*line-height:48px;
+  padding:8px 12px;*/
+  width:60px;
+  height:60px;
+  margin: 0 24px;
+  font-weight:normal;
+  border:0px solid #dcdcdc;
+  background-image: url(../css/btn_btm.png);
+}
+.cbtn:disabled{
+  background-color:#FF3333;
+}
+.tbtn{
+  width:95px;
+  height:36px;
+  margin: 0 2px;
+  font-weight:normal;
+  border:0px solid #dcdcdc;
+  background-image: url(../css/btn_top.png);
+}
+.lbtn{
+  font-size:30px;
+  padding:8px 12px;
+  margin: 0 3px;
+  color:#ffffff;
+  background-color:rgba(255, 255, 255, 0);
+  font-weight:normal;
+  font-family:Microsoft YaHei;
+  border:0px solid #dcdcdc;
+  text-align:center;
+  display:inline-block;
+  text-decoration:none;
+}
 .menubtn{
-  font-size:1.1em;
+  /*font-size:1.1em;
   padding:6px 0;
   width:90%;
   color:#000000;
@@ -152,7 +185,7 @@ background-size:100% 100%;
   box-shadow: inset 0px 0px 0px 0px #f19e9e;
   text-align:center;
   display:inline-block;
-  text-decoration:none;
+  text-decoration:none;*/
 }
 .menubtn:disabled{
   background-color:#06cbe7;
@@ -184,6 +217,22 @@ background-size:100% 100%;
 .myselcai{
   background-color:rgba(153, 255, 153, 0.7);
 }
+
+.set_div{
+  font-size:36px;
+  text-align:center;
+  margin:30px 0px;
+}
+input[type=number]{
+  font-size:48px;
+  text-align:center;
+  width:150px;
+}
+input.sett{
+  font-size:48px;
+  text-align:center;
+  width:250px;
+}
 /* time scroll*/
 .game_time{width:50px;height:50px;text-align:center;}
 
@@ -198,7 +247,7 @@ background-size:100% 100%;
 .time em { background:#fff; position:absolute; top:62px; left:12px; height:18px; width:140px; opacity:0.4; }
 /* \\\\\\\\\\\\\\\\\    MODAL CODE   ///////////////////////////////// */
 .overlay {
-  width: 100%;  height: 100%;  position: fixed;  top: 0;  left: 0;  z-index: 1000;  display: none;
+  width:100%;height:100%;position:fixed;top:0;left:0;z-index:900;display:none;
 }
 .modal {
   display: none;
