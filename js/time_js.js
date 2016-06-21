@@ -10,3 +10,26 @@ b.fillStyle=this.settings.color;b.fill();
 $('#els_time').text(parseInt(this.settings.seconds-this.elapsed_time+1)+' s');
 }}};var l=function(b,a){var c=d.extend({},k,b);return this.each(function(){var b=d(this),e=new f(b,c,a);b.data("pie_timer",e)})},m=function(b){b in f.prototype||d.error("Method "+b+" does not exist on jQuery.pietimer");var a=Array.prototype.slice.call(arguments,1);return this.each(function(){var c=d(this).data("pie_timer");if(!c)return!0;c[b].apply(c,a)})};d.fn.pietimer=
 function(b){return"object"===typeof b||!b?l.apply(this,arguments):m.apply(this,arguments)}})(jQuery);
+
+/* 方法 样式 2 */
+var intDiff = 60;//倒计时总秒数量
+function timer(intDiff){
+	var objTimer = window.setInterval(function(){
+	var day=0,
+		hour=0,
+		minute=0,
+		second=0;//时间默认值		
+	if(intDiff > 0){
+		minute = Math.floor(intDiff / 60);
+		second = Math.floor(intDiff) - (minute * 60);
+	}else{
+		timesup();
+		window.clearInterval(objTimer);
+	}
+	if (minute <= 9) minute = '0' + minute;
+	if (second <= 9) second = '0' + second;
+	$('#minute_show').html('<s></s>'+minute);
+	$('#second_show').html('<s></s>'+second);
+	intDiff--;
+	}, 1000);
+} 

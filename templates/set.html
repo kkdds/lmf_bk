@@ -7,7 +7,6 @@
 <link rel="stylesheet" type="text/css" href="../css/com.css"/>
 <link rel="stylesheet" type="text/css" href="../css/btn_style.css"/>
 <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
-<script type='text/javascript' src='../js/kconnect.js'></script>
 <script type="text/javascript">
 function do_save_setting(obj){
 	$.post('setting',{
@@ -50,30 +49,21 @@ function save_login(){
 <div class="container">
     <!-- Codrops top bar -->
     <div class="codrops-top">
-    <table width="100%" border="0" style="font-size:18px">
-      <tr>
-        <td><a href="./">
-            <strong>介绍</strong>
-        </a>
-        </td>
-        <td><a href="./index2">
-            <strong>菜单</strong>
-        </a>
-        </td>
-        <td><a href="./index2">
-                <strong>烹饪</strong>
-            </a>
-        </td>
-        <td><a href="#">
-                <strong>点评</strong>
-            </a>
-        </td>
-        <td><a href="./set">
-                <strong>设置</strong>
-            </a>
-        </td>
-      </tr>
-    </table>
+            	<a href="./">
+            		<div class="opbutton" style="top:0px; left:105px;"></div>
+            	</a>
+            	<a href="./index2">
+                    <div class="opbutton" style="top:0px; left:305px;"></div>
+            	</a>
+            	<a href="./index2">
+                    <div class="opbutton" style="top:0px; left:485px;"></div>
+            	</a>
+            	<a href="#">
+                    <div class="opbutton" style="top:0px; left:675px;"></div>
+            	</a>
+            	<a href="./set">
+                    <div class="opbutton" style="top:0px; left:855px;background:rgba(51,51,51,0.8);"></div>
+            	</a>
     </div>
 </div>
 
@@ -99,7 +89,7 @@ function save_login(){
 
 <div class="overlay" style="display:block; background-color: #000; opacity:1">
   <div style="top:30%; left:25%; position:absolute; color:#FFF; text-align:center">  
-    <h1>请输入密码</h1>
+    <h1>请输入设置密码</h1>
     <p><input type="text" id="setting_pwd" placeholder="请输入密码" value="" style="font-size:36px; width:300px"/>
       <input type="button" class="lbtn" value="登录 >" onClick="save_login()" >
     </p>

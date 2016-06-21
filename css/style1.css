@@ -52,10 +52,10 @@
     line-height: 200px; 
 }
 .cb-slideshow li:nth-child(1) span { 
-    background-image: url(../css/1.jpg) 
+    background-image: url(../css/2.jpg) 
 }
 .cb-slideshow li:nth-child(2) span { 
-    background-image: url(../css/2.jpg);
+    background-image: url(../css/1.jpg);
     -webkit-animation-delay: 6s;
     -moz-animation-delay: 6s;
     -o-animation-delay: 6s;

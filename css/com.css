@@ -7,18 +7,11 @@ background-size:100% 100%;
 }
 .top_div{margin:10px 0 0 0;}
 .class_div{
-/*	width:99%; height:95%; display:inline-block; 
-	background-color:rgba(0,0,0,0.5);;
-  -webkit-border-radius:6px;
-  -moz-border-radius:6px;
-  border-radius:6px;
-  color:#000000;
-  font-size:1.0em;
-  overflow: auto;
-  background-repeat: no-repeat;
-  background-size:cover;
-  background-position:center center;*/
-  padding:0 0 0 16px;
+	position:relative;
+	background: #000000;
+	background-image:url(../css/menu.png);
+	background-size:100% 100%;
+	height:50px;
 }
 .mid_div{
   height:68%; width:100%; 
@@ -139,12 +132,14 @@ background-size:100% 100%;
   background-color:#FF3333;
 }
 .tbtn{
-  width:95px;
-  height:36px;
-  margin: 0 2px;
-  font-weight:normal;
-  border:0px solid #dcdcdc;
-  background-image: url(../css/btn_top.png);
+	border: 0 solid #000000;
+	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    float: left;
+    height: 50px;
+    width: 12.5%;
+}
+.classsel{
+	background:rgba(255,255,255,0.7) none repeat scroll 0 0;
 }
 .lbtn{
   font-size:30px;
@@ -159,39 +154,23 @@ background-size:100% 100%;
   display:inline-block;
   text-decoration:none;
 }
+.opbutton{
+	background:rgba(0,0,0,0);
+	float:left;
+	height:50px;
+	width:20%;
+}
+.btmbtn{
+	border: 0px solid #000000;
+	background:rgba(0,0,0,0);
+	float:left;
+	height:80px;
+	width:11.1%;
+}
 .menubtn{
-  /*font-size:1.1em;
-  padding:6px 0;
-  width:90%;
-  color:#000000;
-  background-color:#F8B62C;
-  font-weight:normal;
-  font-family:Microsoft YaHei;
-  border:0px solid #dcdcdc;
-  -webkit-border-top-left-radius:6px;
-  -moz-border-radius-topleft:6px;
-  border-top-left-radius:6px;
-  -webkit-border-top-right-radius:6px;
-  -moz-border-radius-topright:6px;
-  border-top-right-radius:6px;
-  -webkit-border-bottom-left-radius:6px;
-  -moz-border-radius-bottomleft:6px;
-  border-bottom-left-radius:6px;
-  -webkit-border-bottom-right-radius:6px;
-  -moz-border-radius-bottomright:6px;
-  border-bottom-right-radius:6px;
-  -moz-box-shadow: inset 0px 0px 0px 0px #f19e9e;
-  -webkit-box-shadow: inset 0px 0px 0px 0px #f19e9e;
-  box-shadow: inset 0px 0px 0px 0px #f19e9e;
-  text-align:center;
-  display:inline-block;
-  text-decoration:none;*/
 }
 .menubtn:disabled{
   background-color:#06cbe7;
-}
-.classsel{
-  background-color:#a6cbe7;
 }
 .timescreen {
   background-color: #dddddd;
@@ -233,21 +212,13 @@ input.sett{
   text-align:center;
   width:250px;
 }
-/* time scroll*/
-.game_time{width:50px;height:50px;text-align:center;}
-
-.pie { width:200px; height:200px; background-color:blue; border-radius:100px; position:absolute; }
-.pie1 { clip:rect(0px,200px,200px,100px); -o-transform:rotate(0deg); -moz-transform:rotate(0deg); -webkit-transform:rotate(0deg); background:-moz-radial-gradient(20% 50% 0deg, #333, #0000ff); background:-webkit-gradient(radial, 100 100, 0, 100 100, 110, from(#000), to(#0000ff)); }
-.pie2 { clip:rect(0px,100px,200px,0px); -o-transform:rotate(0deg); -moz-transform:rotate(0deg); -webkit-transform:rotate(0deg); background:-moz-radial-gradient(80% 50% 0deg, #333, #0000ff); background:-webkit-gradient(radial, 100 100, 0, 100 100, 110, from(#000), to(#0000ff)); }
-.hold { width:200px; height:200px; position:absolute; z-index:1; }
-.hold1 { clip:rect(0px,200px,200px,100px); }
-.hold2 { clip:rect(0px,100px,200px,0px); }
-.bg { width:200px; height:200px; background-color:red; border-radius:100px; position:absolute; box-shadow:0px 0px 8px #333; background:-moz-radial-gradient(0% 50% 0deg, #900, #ff0000); background:-webkit-gradient(radial, 100 100, 0, 100 100, 110, from(#900), to(#ff0000)); }
-.time { width:160px; height:160px; margin:20px 0 0 20px; background-color:#fff; border-radius:100px; position:absolute; z-index:1; box-shadow:0px 0px 8px #333 inset; text-align:center; line-height:160px; font-family:"Book Antiqua", Palatino, serif; font-size:35px; font-weight:bold; text-shadow: 1px 1px 3px #333; }
-.time em { background:#fff; position:absolute; top:62px; left:12px; height:18px; width:140px; opacity:0.4; }
 /* \\\\\\\\\\\\\\\\\    MODAL CODE   ///////////////////////////////// */
 .overlay {
-  width:100%;height:100%;position:fixed;top:0;left:0;z-index:900;display:none;
+  width:100%;height:100%;position:fixed;top:0;left:0;z-index:90;display:none;
+}
+.overlay_init {
+  width:100%;height:100%;position:fixed;top:0;left:0;z-index:90;display:block;
+  background-color: #666; opacity:0.8;
 }
 .modal {
   display: none;
@@ -291,39 +262,17 @@ input{
 }
 /* Header Style */
 .codrops-top{
-	text-align: center;
-	font-family: Arial, sans-serif;
-	line-height: 24px;
-	font-size: 11px;
-	width: 100%;
-	background: #333333;
-	opacity: 0.9;
-	text-transform: uppercase;
+	position:relative;
 	z-index: 999;
-	position: relative;
-	-moz-box-shadow: 1px 0px 2px #333333;
-	-webkit-box-shadow: 1px 0px 2px #333333;
-	box-shadow: 1px 0px 2px #333333;
+	background: #333333;
+	background-image:url(../css/title.png);
+	background-size:100% 100%;
+	height:50px;
 }
-.codrops-top a{
-	padding: 15px 10px;
-	letter-spacing: 1px;
-	color: #ddd;
-	display: block;
-	/*float: left;*/
-text-decoration: none;
-}
-.codrops-top a:hover{
-	color: #fff;
-}
-.codrops-top span.right{
-	float: right;
-}
-.codrops-top span.right a{
-	float: none;
-	display: inline;
-}
-.codrops-top table {
-	border-collapse:collapse;
-	border-spacing:0;
+.codrops-btm{
+	position:relative;
+	background: #EEECEA;
+	background-image:url(../css/foot.png);
+	background-size:100% 100%;
+	height:80px;
 }
