@@ -7,10 +7,7 @@
 <link rel="stylesheet" type="text/css" href="../css/com.css"/>
 <link rel="stylesheet" type="text/css" href="../css/btn_style.css"/>
 <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
-<script type="text/javascript" src="../js/time_js.js"></script>
-<script type='text/javascript' src='../js/jquery.modal.js'></script>
-<script type='text/javascript' src='../js/kconnect.js'></script>
-<script type="text/javascript" src='../js/lmf.js'></script>
+<script type="text/javascript" src='../js/lmf2.js'></script>
 </head>
 <body>
 <div class="container">
@@ -22,7 +19,7 @@
             	<a href="./index2">
                     <div class="opbutton" style="top:0px; left:305px;background:rgba(51,51,51,0.8);"></div>
             	</a>
-            	<a href="#" onClick="show_cai_class('my',this)">
+            	<a href="./index3">
                     <div class="opbutton" style="top:0px; left:485px;"></div>
             	</a>
             	<a href="#">
@@ -36,10 +33,10 @@
 <div class="top_div">
     <div class="class_div" style="background-color:#FFF">
         <input type="button" value="" style="background-position:0px 0px;" id="al" class="tbtn menubtn classsel" onClick="show_cai_class('all',this)">
-        <input type="button" value="" style="background-position:0px 0px;" id="bp" class="tbtn menubtn" onClick="show_cai_class('10',this)">
-        <input type="button" value="" style="background-position:-115px 0px;" id="yp" class="tbtn menubtn" onClick="show_cai_class('70',this)">
-        <input type="button" value="" style="background-position:-248px 0px;" id="wp" class="tbtn menubtn" onClick="show_cai_class('60',this)">
-        <input type="button" value="" style="background-position:0px 0px;" id="lc" class="tbtn menubtn" onClick="show_cai_class('30',this)">
+        <input type="button" value="" style="background-position:0px 0px;" id="bp" class="tbtn menubtn" onClick="show_cai_class('30',this)">
+        <input type="button" value="" style="background-position:-115px 0px;" id="yp" class="tbtn menubtn" onClick="show_cai_class('10',this)">
+        <input type="button" value="" style="background-position:-248px 0px;" id="wp" class="tbtn menubtn" onClick="show_cai_class('70',this)">
+        <input type="button" value="" style="background-position:0px 0px;" id="lc" class="tbtn menubtn" onClick="show_cai_class('60',this)">
         <input type="button" value="" style="background-position:-385px 0px;" id="qp" class="tbtn menubtn" onClick="show_cai_class('40',this)">
         <input type="button" value="" style="background-position:0px 0px;" id="tp" class="tbtn menubtn" onClick="show_cai_class('50',this)">
         <input type="button" value="" style="background-position:-505px 0px;" id="dx" class="tbtn menubtn" onClick="show_cai_class('20',this)">
@@ -50,14 +47,12 @@
   {% for values in caifiles %}
       <div class="item_div caiclass{{values.1}}" 
        style="background-image:url('imagetmb/{{values.0}}')" bgp="image/{{values.5}}.jpg" 
-       caiclass="{{values.1}}" caitime="{{values.3}}" vname="{{values.4}}">
+       caiclass="{{values.1}}" caitime="{{values.3}}" vname="{{values.4}}" raw="{{values.0}}">
           <div class="imgzone" style="height:80%"></div>
-          <div class="selzone">
-              {{values.2}} {{values.3}} 秒
-          </div>
+          <div class="selzone {{values.6}}">{{values.2}}</div>
       </div>
   {% endfor %}    
-    <div class="time-item runscr modalLink2">
+<!--    <div class="time-item runscr modalLink2">
     	<div style="width:150px; background-color:#FFF; float:left;text-align:center; margin-right:0px">
           <div style=" font-size:18px;">min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sec</div>
           <span id="minute_show">0</span>:<span id="second_show">0
@@ -66,52 +61,9 @@
           <div><span id="namescreen">v7</span> ℃</div>
           <div style="font-size:18px">实时温度</div>
     	</div>
-    </div>    
+    </div> -->   
   </div>
 </div>
-
-<div class="btm_div">
-  <div class="codrops-btm">   	
-    	<!--<input type="button" id="cntBtn" class="abtn bbtn disable_when_running " value="连接">-->        
-  <input type="button" class="btmbtn" value="" onClick="shell_up()">
-  <input type="button" class="btmbtn" value="" onClick="shell_dw()">  
-  <input type="button" class="btmbtn" id="btnon" value="" onClick="doonoff(this)">
-  
-  <input type="button" class="btmbtn" id="btnqg_big_stm" value="" onClick="main_steam_on_off(this)">
-  
-  <input type="button" class="btmbtn" id="btn_bw" value="" onClick="slave_on_off(this)">
-  <input type="button" class="btmbtn" id="btn_sk" value="" onClick="shaokao_on_off()">
-  
-  <input type="button" class="btmbtn" id="btnqg_big_wat" value="" onClick="liusui_b_on_off(this,100)">
-  <input type="button" class="btmbtn" id="btnqg_sml_wat" value="" onClick="liusui_b_on_off(this,50)">
-    
-  <input type="button" class="btmbtn" value="" onClick="video_on_off(this)">
-  </div>
-</div>
-
-<div class="overlay"></div>
-
-<div class="overlay_init">
-  <div style="top:30%; left:25%; position:absolute; color:#fff;opacity: 1; text-align:center">  
-    <h1>请输入烹饪密码</h1>
-    <p><input type="text" id="pwd" placeholder="请输入密码" value="" style="font-size:36px; width:300px"/>
-      <input type="button" class="lbtn connect" value="确认 &gt;">
-    </p>
-    <p style="text-align:right">
-      <span id="setting_save_info" style="color:#F00"></span>
-    </p>
-  </div>
-</div>
-
-<div class="modal" id="modal2">
-    <div class="closeBtn">关闭&nbsp;&nbsp;&nbsp;&nbsp;</div>
-    <div class="modal_cnt">手动设置时间： 
-      <input type="number" id="setMtime" placeholder="请输入时间" value=""/>&nbsp;&nbsp;秒
-      <input type="button" id="setMtimebtn" style="width:20%" class="menubtn disable_when_running" value="设置">
-  </div>
-</div>
-
-<div class="modal" id="caitmp"></div>
 
 </body>
 </html>

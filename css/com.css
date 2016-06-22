@@ -14,20 +14,31 @@ background-size:100% 100%;
 	height:50px;
 }
 .mid_div{
-  height:68%; width:100%; 
+  height:78%; width:100%; 
   text-align:center;
   margin:10px 0 0 0;
+}
+.index3{
+  height:60%;
 }
 .scr_div{
   width:95%; height:95%;
   display:inline-block; 
   color:#000000;
-  /*
-  padding: 0.2em 1.0em;font-size:1.0em;*/
+  /*padding: 0.2em 1.0em;font-size:1.0em;*/
   overflow: auto; 
   background-repeat: no-repeat;
   background-size:100% 100%;
   background-position:center center;
+}
+@font-face { 
+  font-family: Digiface;
+  src: url('../css/Digiface.ttf');
+} 
+.runModalScr{
+	color:#333333;
+	font-size:46px;
+	font-family:Digiface
 }
 .btm_div{ bottom:0;left:0; width:100%;text-align:center;padding:0;position:fixed;}
 .ctrl_div{
@@ -47,29 +58,27 @@ background-size:100% 100%;
   margin:5px 3px;
   background-repeat: no-repeat;
   background-size:cover;
-  /*-webkit-box-shadow:3px 3px 5px #555;  
-  -moz-box-shadow:3px 3px 5px #555;  
-  box-shadow:3px 3px 5px #555;  */
 }
 .selzone{
   background-color:rgba(0,0,0,0.5);
+  background-image: url(../css/+.png);
+  background-repeat:no-repeat;
+  background-size:26px;
+  background-position:95% center;
   color:#ffffff;
   bottom:0px;
   position: relative;
   padding:6px 12px;
   font-size:20px;
-  /*height:20%;
-  line-height:48px;
-  border-radius:6px;
-  -webkit-border-radius:6px;
-  -moz-border-radius:6px;*/
+}
+.myselcai{
+  background-image: url(../css/-.png);
 }
 .btn_div{
   border-top: 1px solid rgba(255, 255, 255, 0.26);
   padding:15px 0;
   vertical-align:middle; text-align:center;
   margin: 0 auto;
-  /*background-color:#ffffff;*/
 }
 .classbtn_div{
   border-buttom: 1px solid rgba(255, 255, 255, 0.26);
@@ -193,10 +202,6 @@ background-size:100% 100%;
   border-radius:40px;  
   background-color:#666;
 }
-.myselcai{
-  background-color:rgba(153, 255, 153, 0.7);
-}
-
 .set_div{
   font-size:36px;
   text-align:center;
@@ -212,7 +217,7 @@ input.sett{
   text-align:center;
   width:250px;
 }
-/* \\\\\\\\\\\\\\\\\    MODAL CODE   ///////////////////////////////// */
+/*  MODAL CODE  */
 .overlay {
   width:100%;height:100%;position:fixed;top:0;left:0;z-index:90;display:none;
 }

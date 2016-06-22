@@ -26,6 +26,8 @@ shell_sdu = kconfig.getint("yp","shell_sdu")
 shell_sdd = kconfig.getint("yp","shell_sdd")
 stapwd = kconfig.get("yp","stapwd")
 
+seled_cai=[]
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 io_sk=7 #烧烤
@@ -109,15 +111,47 @@ def index1(request):
 @aiohttp_jinja2.template('index2.html')
 def index2(request):
     global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
-    global softPath
+    global softPath,seled_cai
     s = os.sep
     #rootpath = "image"    
     #root = "/home/pi/lmf/image"
     rootpath = "imagetmb"    
     root = softPath+"imagetmb"
     caifiles=[]
+    #seled_cai=[]
     for i in os.listdir(root):
         if os.path.isfile(os.path.join(root,i)):
+            caiclass=i.split(".")[0]
+            bigimg=i.split(".")[1]
+            cainame=unquote(i.split(".")[4])
+            dltime=i.split(".")[2]
+            videoname=i.split(".")[3]
+
+            #seled_cai.index(i)
+            try:
+                seled_cai.index(i)
+            except:
+                cseled=''
+            else:
+                cseled='myselcai'
+
+            caifiles.append([i,caiclass,cainame,dltime,videoname,bigimg,cseled])
+            
+    caifiles.sort()
+    #使用aiohttp_jinja2  methed 2
+    return {'test': '3', 'caifiles': caifiles}
+
+
+@aiohttp_jinja2.template('index3.html')
+def index3(request):
+    global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
+    global softPath,seled_cai
+    s = os.sep
+    rootpath = "imagetmb"    
+    root = softPath+"imagetmb"
+    caifiles=[]
+    for i in seled_cai:
+        if 1:
             caiclass=i.split(".")[0]
             bigimg=i.split(".")[1]
             cainame=unquote(i.split(".")[4])
@@ -287,9 +321,12 @@ def return_sta(request):
 
 @asyncio.coroutine
 def setting(request):
-    #global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
-    #global stapwd,setpwd,softPath 
+    global shell_ud_t1_set,shell_ud_t2u_set,shell_ud_t2d_set,shell_ud_t3_set
+    global shell_sdu,shell_sdd
+    global stapwd,setpwd,softPath,seled_cai
     hhdd=[('Access-Control-Allow-Origin','*')]
+    tbody= '{"p":"error"}'
+
     po = yield from request.post()
     if po['m'] == 'l' and po['p'] == setpwd:
         tbody= '{"p":"ok"}'
@@ -311,11 +348,20 @@ def setting(request):
         kconfig.set("yp","shell_sdd",str(shell_sdd))
         kconfig.set("yp","stapwd",stapwd)
         kconfig.write(open(softPath+"setting.ini","w"))
-
-        tbody= '{"p":"ok","w":"ok"}'            
+        tbody= '{"p":"ok","w":"ok"}'
         return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
+
+    if po['m'] == 'addcai':
+        if po['s'] == 'true':  
+            seled_cai.remove(po['c'])
+            #print(seled_cai)
+            tbody= '{"p":"dec"}'
+        else:
+            seled_cai.append(po['c'])
+            #print(seled_cai)
+            tbody= '{"p":"add"}'
         
-    tbody= '{"p":"error"}'
+    #tbody= '{"p":"error"}'
     return web.Response(headers=hhdd ,body=tbody.encode('utf-8'))
 
 
@@ -412,6 +458,7 @@ def init(loop):
     
     app.router.add_route('*', '/', index1)
     app.router.add_route('*', '/index2', index2)
+    app.router.add_route('*', '/index3', index3)
     app.router.add_route('*', '/set', setpage)
     app.router.add_route('*', '/video', video)
     app.router.add_route('POST', '/sta', return_sta)
