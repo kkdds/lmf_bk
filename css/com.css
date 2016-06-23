@@ -164,19 +164,25 @@ background-size:100% 100%;
   text-decoration:none;
 }
 .opbutton{
-	background:rgba(0,0,0,0);
-	float:left;
-	height:50px;
-	width:20%;
+  background:rgba(0,0,0,0);
+  float:left;
+  height:50px;
+  width:20%;
 }
 .btmbtn{
-	border: 0px solid #000000;
-	background:rgba(0,0,0,0);
-	float:left;
-	height:80px;
-	width:11.1%;
+  border: 0px solid #000000;
+  background:rgba(0,0,0,0);
+  float:left;
+  height:80px;
+  width:11.1%;
 }
-.menubtn{
+#setMtimebtn{
+  border: 0px solid #000000;
+  background:rgba(0,0,0,0);
+  color:white;
+  font-size:24px;
+  width:100px;
+  padding: 2px 4px;
 }
 .menubtn:disabled{
   background-color:#06cbe7;
@@ -208,9 +214,9 @@ background-size:100% 100%;
   margin:30px 0px;
 }
 input[type=number]{
-  font-size:48px;
+  font-size:36px;
   text-align:center;
-  width:150px;
+  width:120px;
 }
 input.sett{
   font-size:48px;
@@ -227,23 +233,26 @@ input.sett{
 }
 .modal {
   display: none;
-  background: #eee;
+  background: rgba(0,0,0,0);
+  color:white;
   /*padding: 0 20px 20px;*/
   overflow: auto;
   z-index: 1001;
   position: absolute;
   width: 500px;
+  border: 1px solid #ffffff;
   /*min-height: 300px;*/
-  -webkit-border-radius:6px;
-  -moz-border-radius:6px;
-  border-radius:6px;
+  -webkit-border-radius:12px;
+  -moz-border-radius:12px;
+  border-radius:12px;
+  font-size:36px;
 }
 .closeBtn {
-  width: 100%;
+  /*width: 100%;
   background-color: #003399;
   color:#FFF;
-  text-align:right;
-  padding:12px 0;  
+  text-align:right;*/
+  padding:12px 14px;
 }
 .saveBtn {
   width: 100%;
@@ -255,10 +264,11 @@ input.sett{
 .modal_cnt{
   padding:12px 0;  
   text-align:center;
+  font-size:24px;
 }
 input{
   border: 1px solid #35a5e5;
-  border-radius: 3px;
+  border-radius: 8px;
   outline: medium none;
   /*transition: all 0.3s ease-in-out 0s;
   font-size:1.8em;

@@ -5,29 +5,15 @@ var Gscly=0;
 var Gshowtype='all';
 var shell_sta='9';
 var running_sta='9';
-$(document).ready(function(){  
-	//$('#timep').pietimer({seconds: Gcaitime},function(){timesup();})
-    $(".runscr").css("display","none");
-	//$("#run_type").html($("#run_type_def").html());
-/*
-    $('#cntBtn').modal({
-        trigger:'#cntBtn',         // id or class of link or button to trigger modal
-        olay:'div.overlay',            // id or class of overlay
-        modals:'div#modal1',           // id or class of modal
-        close:'.closeBtn'              // id or class of close button
-    });*/
-    $('.modalLink2').modal({
-        trigger:'.modalLink2',
+$(document).ready(function(){
+    //$(".runscr").css("display","none");
+
+    $('.runModalScr').modal({
+        trigger:'.runModalScr',
         olay:'div.overlay',
-        modals:'div#modal2',
+        modals:'div#modal2',//手动设置时间
         close:'.closeBtn'
     });
-/*    $('#setBtn').modal({
-        trigger:'#setBtn',
-        olay:'div.overlay',
-        modals:'div#modal3',
-        close:'.closeBtn'
-    });*/
 	
   $("#setMtimebtn").click(function(){	 
     var cctime=parseInt($('#setMtime').val()); 
@@ -35,11 +21,8 @@ $(document).ready(function(){
 		return false;
 	}
 	Gcaitime=cctime;
-	$('#timep').pietimer({
-		seconds:cctime,
-	},function(){
-		timesup();
-	})
+	sec2minsec();
+
 	$('div.overlay').hide();
 	$('div.modal').hide();
 	return false;
@@ -64,14 +47,7 @@ $(document).ready(function(){
 		  return false;
 	  }
 	  Gcaitime=$(this).parent().attr("caitime");
-	  //$('#timep').pietimer({seconds: Gcaitime},function(){timesup();})
-	  intDiff=parseInt(Gcaitime);
-	  minute = Math.floor(intDiff / 60) ;
-	  second = Math.floor(intDiff) - (minute * 60);
-	  if (minute <= 9) minute = '0' + minute;
-	  if (second <= 9) second = '0' + second;
-	  $('#minute_show').html('<s></s>'+minute);
-	  $('#second_show').html('<s></s>'+second);
+	  sec2minsec();
 	  
 	  Gvname=$(this).parent().attr("vname");
 	  Gpcai=$(this).parent().attr("bgp");
@@ -82,38 +58,46 @@ $(document).ready(function(){
 	  
 	  return false;
   });
-
+/*
   $(".selzone").click(function(){
 	  $(this).toggleClass("myselcai");
 	  return false;
-  });
-
+  });*/
 });
+function sec2minsec(){
+  intDiff=parseInt(Gcaitime);
+  minute = Math.floor(intDiff / 60) ;
+  second = Math.floor(intDiff) - (minute * 60);
+  if (minute <= 9) minute = '0' + minute;
+  if (second <= 9) second = '0' + second;
+  $('#minute_show').html('<s></s>'+minute);
+  $('#second_show').html('<s></s>'+second);  
+}
 function timesup(){
 	//$('#els_time').text('时间到');
-	$('#btnoff').prop("disabled", true);
+	//$('#btnoff').prop("disabled", true);
 	running_sta=false;
 	shell_sta=false;
-	alert('done');
+	//alert('done');
 	//$.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
 		//var rj=JSON.parse(r);
 	//});
 }
-function doonoff(ckbtn){
+function doonoff(obj){
 	if(running_sta=='0'){
 	  //$('#timep').pietimer('start');
-	timer(parseInt(Gcaitime));
-	  $('#btnon').prop("disabled", true);
+	  timer(parseInt(Gcaitime));
+	  //$('#btnon').prop("disabled", true);
 	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'fm',t:Gcaitime},function(r){
 		  //var rj=JSON.parse(r);
-		  $('#btnoff').prop("disabled", false);
+		  //$('#btnoff').prop("disabled", false);
 	  });
 	}else if(running_sta=='1'){
 	  //$('#timep').pietimer('pause');
-	  $('#btnoff').prop("disabled", true);
+	  //$('#btnoff').prop("disabled", true);
 	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fm'},function(r){
 		  //var rj=JSON.parse(r);
-		  $('#btnon').prop("disabled", false);
+		  //$('#btnon').prop("disabled", false);
 	  });
 	}
 	return false;
@@ -150,11 +134,11 @@ var video_sta=true;
 function video_on_off(obj){
 	if(video_sta){
 	  $.post('video',{p:$('#pwd').val(),m:'play',d:Gvname,i:Gpcai},function(r){
-		  $(obj).val('停止播放');
+		  //$(obj).val('停止播放');
 	  });
 	}else{
 	  $.post('video',{p:$('#pwd').val(),m:'stop',i:Gpcai},function(r){
-		  $(obj).val('播放视频');
+		  //$(obj).val('播放视频');
 	  });
 	}
 	video_sta=!video_sta;	
@@ -171,11 +155,11 @@ var sta_slave=true;
 function slave_on_off(obj){
 	if(sta_slave){
 	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'fs',t:1},function(r){
-		  $(obj).val('保温 开');
+		  //$(obj).val('保温 开');
 	  });
 	}else{
 	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'fs'},function(r){
-		  $(obj).val('保温 关');
+		  //$(obj).val('保温 关');
 	  });
 	}
 	sta_slave=!sta_slave;	
@@ -184,12 +168,12 @@ var sta_shaokao=true;
 function shaokao_on_off(){
 	if(sta_shaokao){
 	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'sk',t:1},function(r){
-		  $('#btn_sk').val('烧烤 开');
+		  //$('#btn_sk').val('烧烤 开');
 		  $('.disable_when_running').prop("disabled",true);
 	  });
 	}else{
 	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'sk'},function(r){
-		  $('#btn_sk').val('烧烤 关');
+		  //$('#btn_sk').val('烧烤 关');
 		  $('.disable_when_running').prop("disabled",false);
 	  });
 	}
@@ -199,11 +183,11 @@ var main_steam=true;
 function main_steam_on_off(obj){
 	if(main_steam){
 	  $.post('sta',{p:$('#pwd').val(),m:'gpioon',d:'ms',t:1},function(r){
-		  $(obj).val('蒸汽 开');
+		  //$(obj).val('蒸汽 开');
 	  });
 	}else{
 	  $.post('sta',{p:$('#pwd').val(),m:'gpiooff',d:'ms'},function(r){
-		  $(obj).val('蒸汽 关');
+		  //$(obj).val('蒸汽 关');
 	  });
 	}
 	main_steam=!main_steam;	
@@ -232,43 +216,6 @@ function liusui_on_off(obj,speed){
 		}
 	});
 }
-/*function do_show_setting(){
-	$.post('setting',{m:'r'},function(r){
-		var rj=JSON.parse(r);
-		if(rj.p!='ok'){			
-			$('#t1').val(1);
-			$('#t2u').val(3);
-			$('#t2d').val(2);
-			$('#t3').val(1);
-			return;
-		}
-		$('#t1').val(rj.t1);
-		$('#t2u').val(rj.t2u);
-		$('#t2d').val(rj.t2d);
-		$('#t3').val(rj.t3);
-	});
-	return;
-}
-function do_save_setting(){
-	$.post('setting',{
-		m:'w',
-		p:$('#setting_pwd').val(),
-		t1:$('#t1').val(),
-		t2u:$('#t2u').val(),
-		t2d:$('#t2d').val(),
-		t3:$('#t3').val()
-	},function(r){
-		var rj=JSON.parse(r);
-		if(rj.p!='ok'){
-			$('#setting_save_btn').val('密码错');
-			return;
-		}
-	$('#setting_save_btn').val('保存');
-	$('div.overlay').hide();
-	$('div.modal').hide();
-	});
-	return;
-}*/
 function show_cai_class(showtype,cbtn){
 	$(".scr_div").css("background-image","none");
 	//$(".menubtn").prop("disabled",false);

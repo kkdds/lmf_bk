@@ -16,10 +16,11 @@ function connect() {
 		var rj=JSON.parse(r);
 		if(rj.p!='error'){
 		  ws=setInterval("getSta()", 500);	
-		  log('Connected');
+		  //log('Connected');
 		  update_ui();
 		}else{
 		  disconnect();
+		  $("#log_info").text("密码错误");
 		  return false;			  
 		}
 	});
@@ -27,7 +28,7 @@ function connect() {
 function disconnect(){
   if(ws!= null){
 	clearInterval(ws);
-	log('Disconnected');
+	//log('Disconnected');
 	ws = null;
 	update_ui();
   }
@@ -35,8 +36,10 @@ function disconnect(){
 function update_ui(){
   if(ws==null){
 	  $(".overlay_init").css("display","block");
+	  $("#modal_init").css("display","block");	  
   }else{
 	  $(".overlay_init").css("display","none");
+	  $("#modal_init").css("display","none");
   }
 }
 function log(msg){

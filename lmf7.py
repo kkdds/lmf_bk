@@ -194,7 +194,7 @@ def video(request):
     global stapwd,setpwd,softPath
 
     po = yield from request.post()
-    if po['p'] == stapwd:
+    if 1:#po['p'] == stapwd:
         if po['m'] == 'play':
             #print('video play...')    
             omx = OMXPlayer(softPath+'Videos/'+po['d']+'.mp4',softPath+po['i'])

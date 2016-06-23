@@ -7,6 +7,21 @@
 <link rel="stylesheet" type="text/css" href="../css/demo.css" />
 <link rel="stylesheet" type="text/css" href="../css/style1.css" />
 <script type="text/javascript" src="../js/modernizr.custom.86080.js"></script>
+<script type="text/javascript">
+var video_sta=true;
+function video_on_off(){
+	if(video_sta){
+	  $.post('video',{p:'abc',m:'play',d:'js',i:'01.jpg'},function(r){
+		  //$(obj).val('停止播放');
+	  });
+	}else{
+	  $.post('video',{p:'abc',m:'stop',i:''},function(r){
+		  //$(obj).val('播放视频');
+	  });
+	}
+	video_sta=!video_sta;	
+}
+</script>
 </head>
     <body id="page">
         <ul class="cb-slideshow">
@@ -39,9 +54,10 @@
                 <h1>&nbsp;</h1>
                 <h1>&nbsp;</h1>
 				<p class="codrops-demos">
-					<a href="#" style="border:none; background:none"><img src="../css/btn_play1.jpg"></a>
+					<a href="#" onClick="video_on_off()" style="border:none; background:none"><img src="../css/btn_play1.jpg"></a>
 				</p>
             </header>
         </div>
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
     </body>
 </html>

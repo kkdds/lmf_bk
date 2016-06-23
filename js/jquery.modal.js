@@ -14,9 +14,9 @@ $.fn.modal= function(options){
 	opacity: 0.8,
 	openOnLoad: false,
 	docClose: true,
-	closeByEscape: true,
-	moveOnScroll: true,
-	resizeWindow: true,
+	closeByEscape: false,
+	moveOnScroll: false,
+	resizeWindow: false,
 	video:'',
 	videoClass:'video',
 	close:'.closeBtn'            
@@ -29,6 +29,7 @@ $.fn.modal= function(options){
   if (options.animationEffect==='slidedown'){options.animationEffect = 'slideDown';}  
   olay.css({opacity:0});		  
   if(options.openOnLoad){
+	  currentModal=$(modals);
 	  openModal();
   }else{
 	  olay.hide();
